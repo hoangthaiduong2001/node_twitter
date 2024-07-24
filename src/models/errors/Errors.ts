@@ -1,6 +1,6 @@
 import { ErrorsType } from '~/constants/errorType'
 import HTTP_STATUS from '~/constants/httpStatus'
-import { USERS_MESSAGE } from '~/constants/messageError'
+import { USERS_MESSAGE } from '~/constants/message'
 
 export class ErrorWithStatus {
   message: string

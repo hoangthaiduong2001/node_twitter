@@ -1,7 +1,7 @@
 import { config } from 'dotenv'
 import { ObjectId } from 'mongodb'
 import { TokenType } from '~/constants/enums'
-import { USERS_MESSAGE } from '~/constants/messageError'
+import { USERS_MESSAGE } from '~/constants/message'
 import { RegistersReqBody } from '~/models/requests/User.requests'
 import RefreshToken from '~/models/schemas/RefreshToken.schema'
 import User from '~/models/schemas/User.schema'

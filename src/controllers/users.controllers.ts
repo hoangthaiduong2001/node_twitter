@@ -1,7 +1,7 @@
 import { NextFunction, Request, Response } from 'express'
 import { ParamsDictionary } from 'express-serve-static-core'
 import { ObjectId } from 'mongodb'
-import { USERS_MESSAGE } from '~/constants/messageError'
+import { USERS_MESSAGE } from '~/constants/message'
 import { LogoutReqBody, RegistersReqBody } from '~/models/requests/User.requests'
 import User from '~/models/schemas/User.schema'
 import userService from '~/services/users.services'
