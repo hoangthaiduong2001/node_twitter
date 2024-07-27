@@ -14,6 +14,11 @@ export interface RegistersReqBody {
   date_of_birth: Date
 }
 
+export interface LoginReqBody {
+  email: string
+  password: string
+}
+
 export interface LogoutReqBody {
   refresh_token: string
 }

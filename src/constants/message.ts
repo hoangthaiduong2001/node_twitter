@@ -38,6 +38,7 @@ export const USERS_MESSAGE = {
 
   EMAIL_VERIFY_TOKEN_IS_REQUIRED: 'Email verify token is required',
   EMAIL_ALREADY_VERIFIED_BEFORE: 'Email already verified before',
+  RESEND_EMAIL_VERIFY_SUCCESS: 'Resend email verify success',
   EMAIL_VERIFY_SUCCESS: 'Email verify success',
 
   LOGOUT_SUCCESS: 'Logout success'

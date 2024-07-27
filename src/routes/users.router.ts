@@ -20,5 +20,6 @@ usersRouter.post('/register', registerValidator, handleRequestHandler(registerCo
 usersRouter.post('/login', loginValidator, handleRequestHandler(loginController))
 usersRouter.post('/logout', accessTokenValidator, refreshTokenValidator, handleRequestHandler(logoutController))
 usersRouter.post('/email-verify', emailVerifyTokenValidator, handleRequestHandler(emailVerifyController))
+usersRouter.post('/resend-email-verify', accessTokenValidator, handleRequestHandler(emailVerifyController))
 
 export default usersRouter
