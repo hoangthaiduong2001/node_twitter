@@ -4,7 +4,13 @@ import { ObjectId } from 'mongodb'
 import { UserVerifyStatus } from '~/constants/enums'
 import HTTP_STATUS from '~/constants/httpStatus'
 import { USERS_MESSAGE } from '~/constants/message'
-import { LoginReqBody, LogoutReqBody, RegistersReqBody, TokenPayload } from '~/models/requests/User.requests'
+import {
+  ForgotPasswordReqBody,
+  LoginReqBody,
+  LogoutReqBody,
+  RegistersReqBody,
+  TokenPayload
+} from '~/models/requests/User.requests'
 import User from '~/models/schemas/User.schema'
 import databaseService from '~/services/database.services'
 import userService from '~/services/users.services'
@@ -75,5 +81,15 @@ export const resendEmailVerifyController = async (req: Request, res: Response, n
     })
   }
   const result = await userService.resendEmailVerify(user_id)
+  return res.json(result)
+}
+
+export const forgotPasswordController = async (
+  req: Request<ParamsDictionary, any, ForgotPasswordReqBody>,
+  res: Response,
+  next: NextFunction
+) => {
+  const { _id } = req.user as User
+  const result = await userService.forgotPassword((_id as ObjectId).toString())
   return res.json(result)
 }

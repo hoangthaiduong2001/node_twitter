@@ -40,6 +40,6 @@ export const USERS_MESSAGE = {
   EMAIL_ALREADY_VERIFIED_BEFORE: 'Email already verified before',
   RESEND_EMAIL_VERIFY_SUCCESS: 'Resend email verify success',
   EMAIL_VERIFY_SUCCESS: 'Email verify success',
-
+  CHECK_EMAIL_TO_RESET_PASSWORD: 'Check email to reset password',
   LOGOUT_SUCCESS: 'Logout success'
 } as const
