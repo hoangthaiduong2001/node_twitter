@@ -4,7 +4,9 @@ import {
   forgotPasswordController,
   loginController,
   logoutController,
-  registerController
+  registerController,
+  resetPasswordController,
+  verifyForgotPasswordTokenController
 } from '~/controllers/users.controllers'
 import {
   accessTokenValidator,
@@ -12,7 +14,9 @@ import {
   forgotPasswordValidator,
   loginValidator,
   refreshTokenValidator,
-  registerValidator
+  registerValidator,
+  resetPasswordValidator,
+  verifyForgotPasswordTokenValidator
 } from '~/middlewares/users.middlewares'
 import { handleRequestHandler } from '~/utils/handler'
 
@@ -24,5 +28,11 @@ usersRouter.post('/logout', accessTokenValidator, refreshTokenValidator, handleR
 usersRouter.post('/email-verify', emailVerifyTokenValidator, handleRequestHandler(emailVerifyController))
 usersRouter.post('/resend-email-verify', accessTokenValidator, handleRequestHandler(emailVerifyController))
 usersRouter.post('/forgot-password', forgotPasswordValidator, handleRequestHandler(forgotPasswordController))
+usersRouter.post(
+  '/verify-forgot-password-token',
+  verifyForgotPasswordTokenValidator,
+  handleRequestHandler(verifyForgotPasswordTokenController)
+)
+usersRouter.post('/reset-password', resetPasswordValidator, handleRequestHandler(resetPasswordController))
 
 export default usersRouter
