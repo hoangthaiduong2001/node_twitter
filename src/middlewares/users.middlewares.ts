@@ -6,11 +6,10 @@ import HTTP_STATUS from '~/constants/httpStatus'
 import { USERS_MESSAGE } from '~/constants/message'
 import { ErrorWithStatus } from '~/models/errors/Errors'
 import databaseService from '~/services/database.services'
-import userService from '~/services/users.services'
 import { hashPassword } from '~/utils/crypto'
 import { verifyToken } from '~/utils/jwt'
 import { validate } from '~/utils/validation'
-import { confirmPasswordSchema, forgotPasswordTokenSchema, passwordSchema } from './const'
+import { confirmPasswordSchema, emailSchema, forgotPasswordTokenSchema, passwordSchema } from './const'
 
 export const loginValidator = validate(
   checkSchema(
@@ -86,24 +85,7 @@ export const registerValidator = validate(
           errorMessage: USERS_MESSAGE.NAME_LENGTH_MUST_BE_FROM_1_TO_100
         }
       },
-      email: {
-        isEmail: {
-          errorMessage: USERS_MESSAGE.EMAIL_IS_INVALID
-        },
-        notEmpty: {
-          errorMessage: USERS_MESSAGE.EMAIL_IS_REQUIRED
-        },
-        trim: true,
-        custom: {
-          options: async (value: string) => {
-            const isEmailExists = await userService.checkEmailExists(value)
-            if (isEmailExists) {
-              throw new Error(USERS_MESSAGE.EMAIL_ALREADY_EXISTS)
-            }
-            return true
-          }
-        }
-      },
+      email: emailSchema,
       password: passwordSchema,
       confirmPassword: confirmPasswordSchema,
       dateOfBirth: {

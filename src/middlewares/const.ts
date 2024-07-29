@@ -6,6 +6,7 @@ import HTTP_STATUS from '~/constants/httpStatus'
 import { USERS_MESSAGE } from '~/constants/message'
 import { ErrorWithStatus } from '~/models/errors/Errors'
 import databaseService from '~/services/database.services'
+import userService from '~/services/users.services'
 import { verifyToken } from '~/utils/jwt'
 
 export const passwordSchema: ParamSchema = {
@@ -107,6 +108,25 @@ export const forgotPasswordTokenSchema: ParamSchema = {
         })
       }
 
+      return true
+    }
+  }
+}
+
+export const emailSchema: ParamSchema = {
+  isEmail: {
+    errorMessage: USERS_MESSAGE.EMAIL_IS_INVALID
+  },
+  notEmpty: {
+    errorMessage: USERS_MESSAGE.EMAIL_IS_REQUIRED
+  },
+  trim: true,
+  custom: {
+    options: async (value: string) => {
+      const isEmailExists = await userService.checkEmailExists(value)
+      if (isEmailExists) {
+        throw new Error(USERS_MESSAGE.EMAIL_ALREADY_EXISTS)
+      }
       return true
     }
   }
