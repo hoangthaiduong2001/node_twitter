@@ -6,7 +6,8 @@ import {
   logoutController,
   registerController,
   resetPasswordController,
-  verifyForgotPasswordTokenController
+  verifyForgotPasswordTokenController,
+  getUserProfileController
 } from '~/controllers/users.controllers'
 import {
   accessTokenValidator,
@@ -34,5 +35,5 @@ usersRouter.post(
   handleRequestHandler(verifyForgotPasswordTokenController)
 )
 usersRouter.post('/reset-password', resetPasswordValidator, handleRequestHandler(resetPasswordController))
-
+usersRouter.get('/me', accessTokenValidator, handleRequestHandler(getUserProfileController))
 export default usersRouter

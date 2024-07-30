@@ -7,6 +7,7 @@ const port = 3000
 
 databaseService.connect()
 app.use(express.json())
+app.use(express.urlencoded({ extended: true }))
 app.use('/users', usersRouter)
 app.use(defaultErrorHandler)
 app.listen(port, () => {

@@ -174,7 +174,7 @@ class UserService {
   }
 
   async resetPassword(user_id: string, password: string) {
-    databaseService.users.updateOne(
+    await databaseService.users.updateOne(
       { _id: new ObjectId(user_id) },
       {
         $set: {
@@ -188,6 +188,19 @@ class UserService {
     )
     return {
       message: USERS_MESSAGE.RESET_PASSWORD_SUCCESS
+    }
+  }
+
+  async getUserProfile(user_id: string) {
+    const user = await databaseService.users.findOne(
+      {
+        _id: new ObjectId(user_id)
+      },
+      { projection: { password: 0, email_verify_token: 0, forgot_password_token: 0 } }
+    )
+    return {
+      message: USERS_MESSAGE.GET_PROFILE_SUCCESS,
+      data: user
     }
   }
 }

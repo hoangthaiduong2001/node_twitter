@@ -48,5 +48,7 @@ export const USERS_MESSAGE = {
 
   RESET_PASSWORD_SUCCESS: 'Reset password success',
 
-  LOGOUT_SUCCESS: 'Logout success'
+  LOGOUT_SUCCESS: 'Logout success',
+
+  GET_PROFILE_SUCCESS: `Get profile success`
 } as const
