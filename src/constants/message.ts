@@ -50,5 +50,7 @@ export const USERS_MESSAGE = {
 
   LOGOUT_SUCCESS: 'Logout success',
 
-  GET_PROFILE_SUCCESS: `Get profile success`
+  GET_PROFILE_SUCCESS: `Get profile successfully`,
+
+  DELETE_USER_SUCCESS: 'Delete user successfully'
 } as const

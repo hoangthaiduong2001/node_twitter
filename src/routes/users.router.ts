@@ -7,7 +7,8 @@ import {
   registerController,
   resetPasswordController,
   verifyForgotPasswordTokenController,
-  getUserProfileController
+  getUserProfileController,
+  deleteUserController
 } from '~/controllers/users.controllers'
 import {
   accessTokenValidator,
@@ -36,4 +37,5 @@ usersRouter.post(
 )
 usersRouter.post('/reset-password', resetPasswordValidator, handleRequestHandler(resetPasswordController))
 usersRouter.get('/me', accessTokenValidator, handleRequestHandler(getUserProfileController))
+usersRouter.delete('/delete-user', accessTokenValidator, handleRequestHandler(deleteUserController))
 export default usersRouter
