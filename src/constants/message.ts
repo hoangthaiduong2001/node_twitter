@@ -27,6 +27,7 @@ export const USERS_MESSAGE = {
   DATE_OF_BIRTH_MUST_BE_ISO8601: 'date of birth must be ISO8601',
 
   USER_NOT_FOUND: 'User not found',
+  USER_NOT_VERIFIED: 'User not verified',
 
   LOGIN_SUCCESS: 'Login success',
   REGISTER_SUCCESS: 'Register success',
@@ -46,9 +47,26 @@ export const USERS_MESSAGE = {
   VERIFY_FORGOT_PASSWORD_TOKEN_SUCCESS: 'Verify forgot password token success',
   INVALID_FORGOT_PASSWORD_TOKEN: 'Invalid forgot password token',
 
+  BIO_MUST_BE_STRING: 'Bio must be string',
+  BIO_LENGTH_MUST_BE_FROM_1_TO_200: 'Bio length must be from 1 to 200',
+
+  LOCATION_MUST_BE_STRING: 'Location must be string',
+  LOCATION_LENGTH_MUST_BE_FROM_1_TO_200: 'Location length must be from 1 to 200',
+
+  WEBSITE_MUST_BE_STRING: 'Website must be string',
+  WEBSITE_LENGTH_MUST_BE_FROM_1_TO_200: 'Website length must be from 1 to 200',
+
+  USERNAME_MUST_BE_STRING: 'Website must be string',
+  USERNAME_LENGTH_MUST_BE_FROM_1_TO_50: 'Website length must be from 1 to 50',
+
+  IMAGE_MUST_BE_STRING: 'Image must be string',
+  IMAGE_URL_LENGTH_MUST_BE_FROM_1_TO_400: 'Image url length must be from 1 to 200',
+
   RESET_PASSWORD_SUCCESS: 'Reset password success',
 
   LOGOUT_SUCCESS: 'Logout success',
 
-  GET_PROFILE_SUCCESS: `Get profile success`
+  GET_PROFILE_SUCCESS: `Get profile success`,
+
+  UPDATE_ME_SUCCESS: 'Update profile success'
 } as const
