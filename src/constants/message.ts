@@ -68,5 +68,7 @@ export const USERS_MESSAGE = {
 
   GET_PROFILE_SUCCESS: `Get profile success`,
 
-  UPDATE_ME_SUCCESS: 'Update profile success'
+  UPDATE_ME_SUCCESS: 'Update profile success',
+
+  DELETE_USER_SUCCESS: 'Delete user successfully'
 } as const

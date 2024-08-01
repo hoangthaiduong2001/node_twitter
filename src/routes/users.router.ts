@@ -1,5 +1,6 @@
 import { Router } from 'express'
 import {
+  deleteUserController,
   emailVerifyController,
   forgotPasswordController,
   getUserProfileController,
@@ -40,4 +41,5 @@ usersRouter.post('/reset-password', resetPasswordValidator, handleRequestHandler
 usersRouter.get('/me', accessTokenValidator, handleRequestHandler(getUserProfileController))
 usersRouter.patch('/me', accessTokenValidator, updateMeValidator, handleRequestHandler(updateUserProfileController))
 
+usersRouter.delete('/delete-user', accessTokenValidator, handleRequestHandler(deleteUserController))
 export default usersRouter

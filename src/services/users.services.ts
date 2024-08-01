@@ -237,6 +237,15 @@ class UserService {
     )
     return user
   }
+  async deleteUser(user_id: string) {
+    const user = await databaseService.users.deleteOne({
+      _id: new ObjectId(user_id)
+    })
+
+    return {
+      message: USERS_MESSAGE.DELETE_USER_SUCCESS
+    }
+  }
 }
 
 const userService = new UserService()

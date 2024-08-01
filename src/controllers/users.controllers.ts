@@ -123,6 +123,14 @@ export const getUserProfileController = async (req: Request, res: Response, next
   return res.json(result)
 }
 
+export const deleteUserController = async (req: Request, res: Response, next: NextFunction) => {
+  const { user_id } = req.decoded_authorization as TokenPayload
+
+  const result = await userService.deleteUser(user_id)
+
+  return res.json(result)
+}
+
 export const updateUserProfileController = async (
   req: Request<ParamsDictionary, any, UpdateMeReqBody>,
   res: Response,
