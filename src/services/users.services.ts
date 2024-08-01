@@ -144,7 +144,6 @@ class UserService {
 
   async resendEmailVerify(user_id: string) {
     const email_verify_token = await this.signEmailVerifyToken({ user_id, verify: UserVerifyStatus.UNVERIFIED })
-    console.log('resend verify email')
     await databaseService.users.updateOne(
       { _id: new ObjectId(user_id) },
       {
@@ -213,14 +212,13 @@ class UserService {
     }
   }
   async updateMe(user_id: string, payload: UpdateMeReqBody) {
-    const _payload = payload.date_of_birth ? { ...payload, date_of_birth: new Date(payload.date_of_birth) } : payload
     const user = await databaseService.users.findOneAndUpdate(
       {
         _id: new ObjectId(user_id)
       },
       {
         $set: {
-          ...(_payload as UpdateMeReqBody & { date_of_birth?: Date })
+          ...(payload as UpdateMeReqBody & { date_of_birth?: Date })
         },
         $currentDate: {
           updated_at: true
@@ -237,6 +235,7 @@ class UserService {
     )
     return user
   }
+
   async deleteUser(user_id: string) {
     const user = await databaseService.users.deleteOne({
       _id: new ObjectId(user_id)

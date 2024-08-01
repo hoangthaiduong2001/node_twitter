@@ -8,7 +8,6 @@ export const validate = (validations: RunnableValidationChains<ValidationChain>)
   return async (req: Request, res: Response, next: NextFunction) => {
     await validations.run(req)
     const error = validationResult(req)
-    console.log('error', error)
     if (error.isEmpty()) {
       return next()
     }

@@ -125,9 +125,7 @@ export const getUserProfileController = async (req: Request, res: Response, next
 
 export const deleteUserController = async (req: Request, res: Response, next: NextFunction) => {
   const { user_id } = req.decoded_authorization as TokenPayload
-
   const result = await userService.deleteUser(user_id)
-
   return res.json(result)
 }
 
@@ -138,7 +136,7 @@ export const updateUserProfileController = async (
 ) => {
   const { user_id } = req.decoded_authorization as TokenPayload
   const { body } = req
-  const user = userService.updateMe(user_id, body)
+  const user = await userService.updateMe(user_id, body)
   return res.json({
     message: USERS_MESSAGE.UPDATE_ME_SUCCESS,
     user

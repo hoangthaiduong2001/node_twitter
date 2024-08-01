@@ -9,6 +9,7 @@ export const USERS_MESSAGE = {
   EMAIL_IS_REQUIRED: 'Email is required',
   EMAIL_IS_INVALID: 'Email is invalid',
   EMAIL_OR_PASSWORD_INCORRECT: 'Email or password is incorrect',
+
   PASSWORD_IS_REQUIRED: 'Password is required',
   PASSWORD_MUST_BE_STRING: 'Password must be a string',
   PASSWORD_LENGTH_MUST_BE_FROM_6_TO_50: 'Password length must be from 6 to 50',
@@ -28,9 +29,6 @@ export const USERS_MESSAGE = {
 
   USER_NOT_FOUND: 'User not found',
   USER_NOT_VERIFIED: 'User not verified',
-
-  LOGIN_SUCCESS: 'Login success',
-  REGISTER_SUCCESS: 'Register success',
 
   ACCESS_TOKEN_IS_REQUIRED: 'Access token is required',
   REFRESH_TOKEN_IS_REQUIRED: 'Refresh token is required',
@@ -62,13 +60,11 @@ export const USERS_MESSAGE = {
   IMAGE_MUST_BE_STRING: 'Image must be string',
   IMAGE_URL_LENGTH_MUST_BE_FROM_1_TO_400: 'Image url length must be from 1 to 200',
 
+  LOGIN_SUCCESS: 'Login success',
+  REGISTER_SUCCESS: 'Register success',
   RESET_PASSWORD_SUCCESS: 'Reset password success',
-
   LOGOUT_SUCCESS: 'Logout success',
-
-  GET_PROFILE_SUCCESS: `Get profile success`,
-
+  GET_PROFILE_SUCCESS: 'Get profile success',
   UPDATE_ME_SUCCESS: 'Update profile success',
-
-  DELETE_USER_SUCCESS: 'Delete user successfully'
+  DELETE_USER_SUCCESS: 'Delete user success'
 } as const
