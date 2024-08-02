@@ -60,11 +60,16 @@ export const USERS_MESSAGE = {
   IMAGE_MUST_BE_STRING: 'Image must be string',
   IMAGE_URL_LENGTH_MUST_BE_FROM_1_TO_400: 'Image url length must be from 1 to 200',
 
+  INVALID_FOLLOWED_USER_ID: 'Invalid followed user id',
+  FOLLOWED: 'Followed',
+
   LOGIN_SUCCESS: 'Login success',
   REGISTER_SUCCESS: 'Register success',
   RESET_PASSWORD_SUCCESS: 'Reset password success',
   LOGOUT_SUCCESS: 'Logout success',
   GET_PROFILE_SUCCESS: 'Get profile success',
+  GET_MY_PROFILE_SUCCESS: 'Get my profile success',
   UPDATE_ME_SUCCESS: 'Update profile success',
-  DELETE_USER_SUCCESS: 'Delete user success'
+  DELETE_USER_SUCCESS: 'Delete user success',
+  FOLLOW_SUCCESS: 'Follow success'
 } as const

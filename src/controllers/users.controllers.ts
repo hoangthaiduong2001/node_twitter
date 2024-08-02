@@ -5,7 +5,9 @@ import { UserVerifyStatus } from '~/constants/enums'
 import HTTP_STATUS from '~/constants/httpStatus'
 import { USERS_MESSAGE } from '~/constants/message'
 import {
+  FollowReqBody,
   ForgotPasswordReqBody,
+  GetProfileReqParams,
   LoginReqBody,
   LogoutReqBody,
   RegistersReqBody,
@@ -117,10 +119,23 @@ export const resetPasswordController = async (
   return res.json(result)
 }
 
-export const getUserProfileController = async (req: Request, res: Response, next: NextFunction) => {
+export const getMyProfileController = async (req: Request, res: Response, next: NextFunction) => {
   const { user_id } = req.decoded_authorization as TokenPayload
-  const result = await userService.getUserProfile(user_id)
+  const result = await userService.getMyProfile(user_id)
   return res.json(result)
+}
+
+export const getUserProfileController = async (
+  req: Request<GetProfileReqParams>,
+  res: Response,
+  next: NextFunction
+) => {
+  const { username } = req.params
+  const user = await userService.getUserProfile(username as string)
+  return res.json({
+    message: USERS_MESSAGE.GET_PROFILE_SUCCESS,
+    user
+  })
 }
 
 export const deleteUserController = async (req: Request, res: Response, next: NextFunction) => {
@@ -141,4 +156,15 @@ export const updateUserProfileController = async (
     message: USERS_MESSAGE.UPDATE_ME_SUCCESS,
     user
   })
+}
+
+export const followController = async (
+  req: Request<ParamsDictionary, any, FollowReqBody>,
+  res: Response,
+  next: NextFunction
+) => {
+  const { user_id } = req.decoded_authorization as TokenPayload
+  const { followed_user_id } = req.body
+  const result = await userService.follow(user_id, followed_user_id)
+  return res.json(result)
 }

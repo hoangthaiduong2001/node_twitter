@@ -6,10 +6,22 @@ import { ObjectId } from 'mongodb'
 import HTTP_STATUS from '~/constants/httpStatus'
 import { USERS_MESSAGE } from '~/constants/message'
 import { ErrorWithStatus } from '~/models/errors/Errors'
+import { UpdateMeReqBody } from '~/models/requests/User.requests'
 import databaseService from '~/services/database.services'
 import userService from '~/services/users.services'
 import { hashPassword } from '~/utils/crypto'
 import { verifyToken } from '~/utils/jwt'
+
+export const filterKeysBodyUpdateUser: Array<keyof UpdateMeReqBody> = [
+  'name',
+  'date_of_birth',
+  'bio',
+  'location',
+  'website',
+  'username',
+  'avatar',
+  'cover_photo'
+]
 
 export const passwordSchema: ParamSchema = {
   isString: {
@@ -379,6 +391,28 @@ export const authorizationSchema: ParamSchema = {
       }
 
       return true
+    }
+  }
+}
+
+export const followSchema: ParamSchema = {
+  custom: {
+    options: async (value: string, { req }) => {
+      const followed_user = await databaseService.users.findOne({
+        _id: new ObjectId(value)
+      })
+      if (!ObjectId.isValid(value)) {
+        throw new ErrorWithStatus({
+          message: USERS_MESSAGE.INVALID_FOLLOWED_USER_ID,
+          status: HTTP_STATUS.NOT_FOUND
+        })
+      }
+      if (followed_user === null) {
+        throw new ErrorWithStatus({
+          message: USERS_MESSAGE.USER_NOT_FOUND,
+          status: HTTP_STATUS.NOT_FOUND
+        })
+      }
     }
   }
 }

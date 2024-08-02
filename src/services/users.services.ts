@@ -3,6 +3,7 @@ import { ObjectId } from 'mongodb'
 import { TokenType, UserVerifyStatus } from '~/constants/enums'
 import { USERS_MESSAGE } from '~/constants/message'
 import { RegistersReqBody, UpdateMeReqBody } from '~/models/requests/User.requests'
+import Follower from '~/models/schemas/Follower.schema'
 import RefreshToken from '~/models/schemas/RefreshToken.schema'
 import User from '~/models/schemas/User.schema'
 import { hashPassword } from '~/utils/crypto'
@@ -199,7 +200,7 @@ class UserService {
     }
   }
 
-  async getUserProfile(user_id: string) {
+  async getMyProfile(user_id: string) {
     const user = await databaseService.users.findOne(
       {
         _id: new ObjectId(user_id)
@@ -207,10 +208,33 @@ class UserService {
       { projection: { password: 0, email_verify_token: 0, forgot_password_token: 0 } }
     )
     return {
+      message: USERS_MESSAGE.GET_MY_PROFILE_SUCCESS,
+      data: user
+    }
+  }
+
+  async getUserProfile(username: string) {
+    const user = await databaseService.users.findOne(
+      {
+        username: username
+      },
+      {
+        projection: {
+          password: 0,
+          email_verify_token: 0,
+          forgot_password_token: 0,
+          created_at: 0,
+          updated_at: 0,
+          verify: 0
+        }
+      }
+    )
+    return {
       message: USERS_MESSAGE.GET_PROFILE_SUCCESS,
       data: user
     }
   }
+
   async updateMe(user_id: string, payload: UpdateMeReqBody) {
     const user = await databaseService.users.findOneAndUpdate(
       {
@@ -237,12 +261,34 @@ class UserService {
   }
 
   async deleteUser(user_id: string) {
-    const user = await databaseService.users.deleteOne({
+    await databaseService.users.deleteOne({
       _id: new ObjectId(user_id)
     })
 
     return {
       message: USERS_MESSAGE.DELETE_USER_SUCCESS
+    }
+  }
+
+  async follow(user_id: string, followed_user_id: string) {
+    const follow = await databaseService.followers.findOne({
+      user_id: new ObjectId(user_id),
+      followed_user_id: new ObjectId(followed_user_id)
+    })
+    if (follow === null) {
+      await databaseService.followers.insertOne(
+        new Follower({
+          user_id: new ObjectId(user_id),
+          followed_user_id: new ObjectId(followed_user_id)
+        })
+      )
+
+      return {
+        message: USERS_MESSAGE.FOLLOW_SUCCESS
+      }
+    }
+    return {
+      message: USERS_MESSAGE.FOLLOWED
     }
   }
 }
