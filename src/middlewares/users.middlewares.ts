@@ -15,6 +15,7 @@ import {
   emailLoginSchema,
   emailSchema,
   emailVerifyTokenSchema,
+  followSchema,
   forgotPasswordTokenSchema,
   imageSchema,
   locationSchema,
@@ -135,6 +136,15 @@ export const updateMeValidator = validate(
       username: usernameSchema,
       avatar: imageSchema,
       cover_photo: imageSchema
+    },
+    ['body']
+  )
+)
+
+export const followValidator = validate(
+  checkSchema(
+    {
+      followed_user_id: followSchema
     },
     ['body']
   )
