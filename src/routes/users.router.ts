@@ -1,5 +1,6 @@
 import { Router } from 'express'
 import {
+  changePasswordController,
   deleteUserController,
   emailVerifyController,
   followController,
@@ -10,6 +11,7 @@ import {
   logoutController,
   registerController,
   resetPasswordController,
+  unFollowController,
   updateUserProfileController,
   verifyForgotPasswordTokenController
 } from '~/controllers/users.controllers'
@@ -17,6 +19,7 @@ import { filterKeysBodyUpdateUser } from '~/middlewares/const'
 import { filterMiddleware } from '~/middlewares/filter.middleware'
 import {
   accessTokenValidator,
+  changePasswordValidator,
   emailVerifyTokenValidator,
   followValidator,
   forgotPasswordValidator,
@@ -24,6 +27,7 @@ import {
   refreshTokenValidator,
   registerValidator,
   resetPasswordValidator,
+  unfollowValidator,
   updateMeValidator,
   verifiedUserValidator,
   verifyForgotPasswordTokenValidator
@@ -63,4 +67,19 @@ usersRouter.post(
   followValidator,
   handleRequestHandler(followController)
 )
+usersRouter.delete(
+  '/follow/:followed_user_id',
+  accessTokenValidator,
+  verifiedUserValidator,
+  unfollowValidator,
+  handleRequestHandler(unFollowController)
+)
+usersRouter.put(
+  '/change-password',
+  accessTokenValidator,
+  verifiedUserValidator,
+  changePasswordValidator,
+  handleRequestHandler(changePasswordController)
+)
+
 export default usersRouter
