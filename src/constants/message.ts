@@ -16,6 +16,7 @@ export const USERS_MESSAGE = {
   PASSWORD_MUST_BE_STRONG:
     'Password must be 6-50 characters long and contain at least 1 lowercase letter, 1 uppercase letter, 1 number nad 1 symbol',
   PASSWORD_WRONG_FORMAT: 'Format password is wrong',
+  OLD_PASSWORD_NOT_MATCH: 'Old password not match with password',
 
   CONFIRM_PASSWORD_IS_REQUIRED: 'Confirm password is required',
   CONFIRM_PASSWORD_MUST_BE_STRING: 'Confirm password must be a string',
@@ -56,12 +57,16 @@ export const USERS_MESSAGE = {
 
   USERNAME_MUST_BE_STRING: 'Website must be string',
   USERNAME_LENGTH_MUST_BE_FROM_1_TO_50: 'Website length must be from 1 to 50',
+  USERNAME_INVALID:
+    'Username must be 4-15 characters long and contain only letters, numbers, underscores, not only numbers',
+  USERNAME_EXISTED: 'Username existed',
 
   IMAGE_MUST_BE_STRING: 'Image must be string',
   IMAGE_URL_LENGTH_MUST_BE_FROM_1_TO_400: 'Image url length must be from 1 to 200',
 
   INVALID_FOLLOWED_USER_ID: 'Invalid followed user id',
   FOLLOWED: 'Followed',
+  ALREADY_UNFOLLOWED: 'Already unfollowed ',
 
   LOGIN_SUCCESS: 'Login success',
   REGISTER_SUCCESS: 'Register success',
@@ -71,5 +76,7 @@ export const USERS_MESSAGE = {
   GET_MY_PROFILE_SUCCESS: 'Get my profile success',
   UPDATE_ME_SUCCESS: 'Update profile success',
   DELETE_USER_SUCCESS: 'Delete user success',
-  FOLLOW_SUCCESS: 'Follow success'
+  FOLLOW_SUCCESS: 'Follow success',
+  UNFOLLOW_SUCCESS: 'Unfollow success',
+  CHANGE_PASSWORD_SUCCESS: 'Change password success'
 } as const

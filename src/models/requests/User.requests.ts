@@ -51,6 +51,14 @@ export interface FollowReqBody {
   followed_user_id: string
 }
 
+export interface UnFollowReqParams {
+  followed_user_id?: string
+}
+
+export interface ChangePasswordReqBody {
+  new_password: string
+}
+
 export interface ResetPasswordReqBody {
   password: string
   confirm_password: string

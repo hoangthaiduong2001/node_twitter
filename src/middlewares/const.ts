@@ -11,6 +11,7 @@ import databaseService from '~/services/database.services'
 import userService from '~/services/users.services'
 import { hashPassword } from '~/utils/crypto'
 import { verifyToken } from '~/utils/jwt'
+import { REGEX_USERNAME } from './regex'
 
 export const filterKeysBodyUpdateUser: Array<keyof UpdateMeReqBody> = [
   'name',
@@ -39,13 +40,13 @@ export const passwordSchema: ParamSchema = {
   },
   isStrongPassword: {
     options: {
-      minLength: 1,
+      minLength: 6,
       minLowercase: 1,
       minUppercase: 1,
       minNumbers: 1,
       minSymbols: 1
     },
-    errorMessage: USERS_MESSAGE.CONFIRM_PASSWORD_MUST_BE_STRONG
+    errorMessage: USERS_MESSAGE.PASSWORD_MUST_BE_STRONG
   },
   errorMessage: USERS_MESSAGE.PASSWORD_WRONG_FORMAT
 }
@@ -66,7 +67,7 @@ export const confirmPasswordSchema: ParamSchema = {
   },
   isStrongPassword: {
     options: {
-      minLength: 1,
+      minLength: 6,
       minLowercase: 1,
       minUppercase: 1,
       minNumbers: 1,
@@ -76,7 +77,8 @@ export const confirmPasswordSchema: ParamSchema = {
   },
   custom: {
     options: (value, { req }) => {
-      if (value !== req.body.password) {
+      if (value !== req.body.new_password) {
+        console.log('req.body.password', req.body.new_password)
         throw new Error(USERS_MESSAGE.CONFIRM_PASSWORD_NOT_MATCH_WITH_PASSWORD)
       }
       return true
@@ -241,12 +243,16 @@ export const usernameSchema: ParamSchema = {
     errorMessage: USERS_MESSAGE.USERNAME_MUST_BE_STRING
   },
   trim: true,
-  isLength: {
-    options: {
-      min: 1,
-      max: 50
-    },
-    errorMessage: USERS_MESSAGE.USERNAME_LENGTH_MUST_BE_FROM_1_TO_50
+  custom: {
+    options: async (value: string, { req }) => {
+      const user = await databaseService.users.findOne({ username: value })
+      if (!REGEX_USERNAME.test(value)) {
+        throw Error(USERS_MESSAGE.USERNAME_INVALID)
+      }
+      if (user) {
+        throw Error(USERS_MESSAGE.USERNAME_EXISTED)
+      }
+    }
   }
 }
 
