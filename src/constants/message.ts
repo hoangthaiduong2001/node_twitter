@@ -16,7 +16,7 @@ export const USERS_MESSAGE = {
   PASSWORD_MUST_BE_STRONG:
     'Password must be 6-50 characters long and contain at least 1 lowercase letter, 1 uppercase letter, 1 number nad 1 symbol',
   PASSWORD_WRONG_FORMAT: 'Format password is wrong',
-  OLD_PASSWORD_NOT_MATCH: 'Old password not match with password',
+  OLD_PASSWORD_NOT_MATCH: 'Old password not match with current password',
 
   CONFIRM_PASSWORD_IS_REQUIRED: 'Confirm password is required',
   CONFIRM_PASSWORD_MUST_BE_STRING: 'Confirm password must be a string',
@@ -38,7 +38,6 @@ export const USERS_MESSAGE = {
 
   EMAIL_VERIFY_TOKEN_IS_REQUIRED: 'Email verify token is required',
   EMAIL_ALREADY_VERIFIED_BEFORE: 'Email already verified before',
-  RESEND_EMAIL_VERIFY_SUCCESS: 'Resend email verify success',
   EMAIL_VERIFY_SUCCESS: 'Email verify success',
   CHECK_EMAIL_TO_RESET_PASSWORD: 'Check email to reset password',
 
@@ -68,9 +67,12 @@ export const USERS_MESSAGE = {
   FOLLOWED: 'Followed',
   ALREADY_UNFOLLOWED: 'Already unfollowed ',
 
+  GMAIL_NOT_VERIFY: 'Gmail not verify',
+
   LOGIN_SUCCESS: 'Login success',
   REGISTER_SUCCESS: 'Register success',
   RESET_PASSWORD_SUCCESS: 'Reset password success',
+  RESEND_EMAIL_VERIFY_SUCCESS: 'Resend email verify success',
   LOGOUT_SUCCESS: 'Logout success',
   GET_PROFILE_SUCCESS: 'Get profile success',
   GET_MY_PROFILE_SUCCESS: 'Get my profile success',

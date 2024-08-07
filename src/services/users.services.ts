@@ -1,8 +1,11 @@
+import axios from 'axios'
 import { config } from 'dotenv'
 import { ObjectId } from 'mongodb'
 import { TokenType, UserVerifyStatus } from '~/constants/enums'
+import HTTP_STATUS from '~/constants/httpStatus'
 import { USERS_MESSAGE } from '~/constants/message'
-import { RegistersReqBody, UpdateMeReqBody } from '~/models/requests/User.requests'
+import { ErrorWithStatus } from '~/models/errors/Errors'
+import { IUserVerify, RegistersReqBody, UpdateMeReqBody } from '~/models/requests/User.requests'
 import Follower from '~/models/schemas/Follower.schema'
 import RefreshToken from '~/models/schemas/RefreshToken.schema'
 import User from '~/models/schemas/User.schema'
@@ -12,7 +15,7 @@ import databaseService from './database.services'
 config()
 
 class UserService {
-  private signAccessToken({ user_id, verify }: { user_id: string; verify: UserVerifyStatus }) {
+  private signAccessToken({ user_id, verify }: IUserVerify) {
     return signToken({
       payload: {
         user_id,
@@ -25,7 +28,7 @@ class UserService {
       }
     })
   }
-  private signRefreshToken({ user_id, verify }: { user_id: string; verify: UserVerifyStatus }) {
+  private signRefreshToken({ user_id, verify }: IUserVerify) {
     return signToken({
       payload: {
         user_id,
@@ -38,7 +41,7 @@ class UserService {
       }
     })
   }
-  private signEmailVerifyToken({ user_id, verify }: { user_id: string; verify: UserVerifyStatus }) {
+  private signEmailVerifyToken({ user_id, verify }: IUserVerify) {
     return signToken({
       payload: {
         user_id,
@@ -50,7 +53,7 @@ class UserService {
       }
     })
   }
-  private signForgotPasswordToken({ user_id, verify }: { user_id: string; verify: UserVerifyStatus }) {
+  private signForgotPasswordToken({ user_id, verify }: IUserVerify) {
     return signToken({
       payload: {
         user_id,
@@ -63,8 +66,47 @@ class UserService {
       }
     })
   }
-  private signAccessAndRefreshToken({ user_id, verify }: { user_id: string; verify: UserVerifyStatus }) {
+  private signAccessAndRefreshToken({ user_id, verify }: IUserVerify) {
     return Promise.all([this.signAccessToken({ user_id, verify }), this.signRefreshToken({ user_id, verify })])
+  }
+  private async getOauthGoogleToken(code: string) {
+    const body = {
+      code,
+      client_id: process.env.GOOGLE_CLIENT_ID,
+      client_secret: process.env.GOOGLE_CLIENT_SECRET,
+      redirect_uri: process.env.GOOGLE_REDIRECT_URI,
+      grant_type: 'authorization_code'
+    }
+    const { data } = await axios.post('https://oauth2.googleapis.com/token', body, {
+      headers: {
+        'Content-Type': 'application/x-www-form-urlencoded'
+      }
+    })
+    return data as {
+      access_token: string
+      id_token: string
+    }
+  }
+  private async getGoogleUserInfo(access_token: string, id_token: string) {
+    const { data } = await axios.get('https://www.googleapis.com/oauth2/v1/userinfo', {
+      params: {
+        access_token,
+        alt: 'json'
+      },
+      headers: {
+        Authorization: `Bearer ${id_token}`
+      }
+    })
+    return data as {
+      id: string
+      name: string
+      email: string
+      verified_email: boolean
+      given_name: string
+      family_name: string
+      picture: string
+      locale: string
+    }
   }
   async register(payload: RegistersReqBody) {
     const user_id = new ObjectId()
@@ -99,7 +141,7 @@ class UserService {
     return Boolean(result)
   }
 
-  async login({ user_id, verify }: { user_id: string; verify: UserVerifyStatus }) {
+  async login({ user_id, verify }: IUserVerify) {
     const [access_token, refresh_token] = await this.signAccessAndRefreshToken({ user_id, verify })
     await databaseService.refreshToken.insertOne(
       new RefreshToken({ user_id: new ObjectId(user_id), token: refresh_token })
@@ -107,6 +149,42 @@ class UserService {
     return {
       access_token,
       refresh_token
+    }
+  }
+  async oauthGoogle(code: string) {
+    const { access_token, id_token } = await this.getOauthGoogleToken(code)
+    const userInfo = await this.getGoogleUserInfo(access_token, id_token)
+    const user = await databaseService.users.findOne({ email: userInfo.email })
+    if (!userInfo.verified_email) {
+      throw new ErrorWithStatus({
+        message: USERS_MESSAGE.GMAIL_NOT_VERIFY,
+        status: HTTP_STATUS.BAD_REQUEST
+      })
+    }
+    if (user) {
+      const [access_token, refresh_token] = await this.signAccessAndRefreshToken({
+        user_id: user._id.toString(),
+        verify: user.verify
+      })
+      await databaseService.refreshToken.insertOne(
+        new RefreshToken({ user_id: new ObjectId(user._id), token: refresh_token })
+      )
+      return {
+        access_token,
+        refresh_token,
+        newUser: false,
+        verify: user.verify
+      }
+    } else {
+      const password = Math.random().toString(36).substring(2, 15)
+      const data = await this.register({
+        name: userInfo.name,
+        email: userInfo.email,
+        date_of_birth: new Date(),
+        password,
+        confirm_password: password
+      })
+      return { ...data, newUser: true, verify: UserVerifyStatus.UNVERIFIED }
     }
   }
 
@@ -167,7 +245,7 @@ class UserService {
     }
   }
 
-  async forgotPassword({ user_id, verify }: { user_id: string; verify: UserVerifyStatus }) {
+  async forgotPassword({ user_id, verify }: IUserVerify) {
     const forgot_password_token = await this.signForgotPasswordToken({ user_id, verify })
     await databaseService.users.updateOne(
       {
