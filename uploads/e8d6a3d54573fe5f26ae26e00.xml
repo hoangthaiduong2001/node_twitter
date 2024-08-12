@@ -1,0 +1,156 @@
+<?xml version="1.0" encoding="UTF-8" standalone="yes"?>
+<HSoThueDTu xmlns="http://kekhaithue.gdt.gov.vn/TKhaiThue" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance">
+    <HSoKhaiThue>
+        <TTinChung>
+            <TTinDVu>
+                <maDVu>ICANHAN</maDVu>
+                <tenDVu>ICANHAN</tenDVu>
+                <pbanDVu>1.0</pbanDVu>
+                <ttinNhaCCapDVu>ICANHAN-TCT</ttinNhaCCapDVu>
+            </TTinDVu>
+            <TTinTKhaiThue>
+                <TKhaiThue>
+                    <maTKhai>952</maTKhai>
+                    <tenTKhai>Tờ khai quyết toán thuế thu nhập cá nhân 02/QTT-TNCN (TT80/2021)</tenTKhai>
+                    <moTaBMau>Áp dụng cho cá nhân cư trú có thu nhập từ tiền lương, tiền công</moTaBMau>
+                    <pbanTKhaiXML>2.5.1</pbanTKhaiXML>
+                    <loaiTKhai>C</loaiTKhai>
+                    <soLan>0</soLan>
+                    <KyKKhaiThue>
+                        <kieuKy>Y</kieuKy>
+                        <kyKKhai>2023</kyKKhai>
+                        <kyKKhaiTuNgay></kyKKhaiTuNgay>
+                        <kyKKhaiDenNgay></kyKKhaiDenNgay>
+                        <kyKKhaiTuThang>01/2023</kyKKhaiTuThang>
+                        <kyKKhaiDenThang>12/2023</kyKKhaiDenThang>
+                    </KyKKhaiThue>
+                    <maCQTNoiNop>70100</maCQTNoiNop>
+                    <tenCQTNoiNop>Cục Thuế Thành phố Hồ Chí Minh</tenCQTNoiNop>
+                    <ngayLapTKhai>01/04/2024</ngayLapTKhai>
+                    <GiaHan>
+                        <maLyDoGiaHan></maLyDoGiaHan>
+                        <lyDoGiaHan></lyDoGiaHan>
+                    </GiaHan>
+                    <nguoiKy></nguoiKy>
+                    <ngayKy>2024-04-01</ngayKy>
+                    <nganhNgheKD></nganhNgheKD>
+                </TKhaiThue>
+                <NNT>
+                    <mst>8835026468</mst>
+                    <tenNNT>Hoàng Thái Dương</tenNNT>
+                    <dchiNNT>Số nhà 44, Ấp Thuận Long, Xã Tân Tiến</dchiNNT>
+                    <phuongXa></phuongXa>
+                    <maHuyenNNT>82311</maHuyenNNT>
+                    <tenHuyenNNT>Huyện Đầm Dơi</tenHuyenNNT>
+                    <maTinhNNT>823</maTinhNNT>
+                    <tenTinhNNT>Cà Mau</tenTinhNNT>
+                    <dthoaiNNT>0918475646</dthoaiNNT>
+                    <faxNNT></faxNNT>
+                    <emailNNT>duongtantien1@gmail.com</emailNNT>
+                </NNT>
+            </TTinTKhaiThue>
+        </TTinChung>
+        <CTieuTKhaiChinh>
+            <Header>
+                <qTTTheoHSGiamThue>false</qTTTheoHSGiamThue>
+                <ma_THQuyetToan>09</ma_THQuyetToan>
+                <ten_THQuyetToan>Quyết toán theo năm dương lịch</ten_THQuyetToan>
+                <hanNop xsi:nil="true"/>
+                <MST xsi:nil="true"/>
+                <tenTCCT></tenTCCT>
+                <dchiTCCT></dchiTCCT>
+                <maHuyenTCCT></maHuyenTCCT>
+                <tenHuyenTCCT></tenHuyenTCCT>
+                <maTinhTCCT></maTinhTCCT>
+                <tenTinhTCCT></tenTinhTCCT>
+            </Header>
+            <ct20>83034441</ct20>
+            <ct21>83034441</ct21>
+            <ct22>0</ct22>
+            <ct23>0</ct23>
+            <ct24>0</ct24>
+            <ct25>136367318</ct25>
+            <ct26>132000000</ct26>
+            <ct27>0</ct27>
+            <ct28>0</ct28>
+            <ct29>4367318</ct29>
+            <ct30>0</ct30>
+            <ct31>0</ct31>
+            <ct32>0</ct32>
+            <ct33>2855871</ct33>
+            <ct34>2855871</ct34>
+            <ct35>0</ct35>
+            <ct36>0</ct36>
+            <ct37>0</ct37>
+            <ct38>0</ct38>
+            <ct39>0</ct39>
+            <ct40>0</ct40>
+            <ct41>0</ct41>
+            <ct42>0</ct42>
+            <ct43>0</ct43>
+            <ct44>2855871</ct44>
+            <ct45>2855871</ct45>
+            <ct46>2855871</ct46>
+            <ct47>0</ct47>
+            <ct48>0</ct48>
+            <TTinHoanThue>
+                <soTienHoanTra>2855871</soTienHoanTra>
+                <HinhThucHoanTra>
+                    <chuyenKhoan>true</chuyenKhoan>
+                    <tenChuTaiKhoan>HOANG THAI DUONG</tenChuTaiKhoan>
+                    <soTaiKhoan>3143531667</soTaiKhoan>
+                    <tenNganHang>BIDV</tenNganHang>
+                    <tienMat>false</tienMat>
+                    <tenNguoiNhan xsi:nil="true"/>
+                    <maLoaiGiayTo xsi:nil="true"/>
+                    <tenLoaiGiayTo></tenLoaiGiayTo>
+                    <soGiayTo xsi:nil="true"/>
+                    <ngayCap xsi:nil="true"/>
+                    <noiCap xsi:nil="true"/>
+                    <noNhanTien xsi:nil="true"/>
+                </HinhThucHoanTra>
+            </TTinHoanThue>
+            <TTinBuTru>
+                <TTinKhoanNoKhoanThuPS>
+                    <ct02 xsi:nil="true"/>
+                    <ct03 xsi:nil="true"/>
+                    <ct04 xsi:nil="true"/>
+                    <ct05 xsi:nil="true"/>
+                    <ct06_ma xsi:nil="true"/>
+                    <ct06_ten xsi:nil="true"/>
+                    <ct07_ma xsi:nil="true"/>
+                    <ct07_ten xsi:nil="true"/>
+                    <ct08_ma xsi:nil="true"/>
+                    <ct08_ten xsi:nil="true"/>
+                    <ct09_ma xsi:nil="true"/>
+                    <ct09_ten xsi:nil="true"/>
+                    <ct10 xsi:nil="true"/>
+                    <ct11 xsi:nil="true"/>
+                    <ct12 xsi:nil="true"/>
+                    <ct13 xsi:nil="true"/>
+                </TTinKhoanNoKhoanThuPS>
+            </TTinBuTru>
+        </CTieuTKhaiChinh>
+        <PLuc>
+            <PLuc_02_1_BK_QTT_TNCN>
+                <Header>
+                    <ct06 xsi:nil="true"/>
+                    <ct07 xsi:nil="true"/>
+                    <ct08 xsi:nil="true"/>
+                </Header>
+                <CTiet id="1">
+                    <ct10 xsi:nil="true"/>
+                    <ct11 xsi:nil="true"/>
+                    <ct12_ma xsi:nil="true"/>
+                    <ct12_ten xsi:nil="true"/>
+                    <ct13 xsi:nil="true"/>
+                    <ct14 xsi:nil="true"/>
+                    <ct15_ma xsi:nil="true"/>
+                    <ct15_ten xsi:nil="true"/>
+                    <ct16 xsi:nil="true"/>
+                    <ct17 xsi:nil="true"/>
+                </CTiet>
+            </PLuc_02_1_BK_QTT_TNCN>
+        </PLuc>
+    </HSoKhaiThue>
+</HSoThueDTu>
