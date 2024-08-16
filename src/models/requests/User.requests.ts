@@ -1,6 +1,6 @@
 import { JwtPayload } from 'jsonwebtoken'
 import { ObjectId } from 'mongodb'
-import { TokenType } from '~/constants/enums'
+import { TokenType, UserVerifyStatus } from '~/constants/enums'
 
 export interface LoginReqBody {
   user_id: ObjectId
@@ -37,6 +37,11 @@ export interface LogoutReqBody {
 export interface TokenPayload extends JwtPayload {
   user_id: string
   token_type: TokenType
+}
+
+export interface IUserVerify {
+  user_id: string
+  verify: UserVerifyStatus
 }
 
 export interface ForgotPasswordReqBody {

@@ -1,3 +1,4 @@
+import { config } from 'dotenv'
 import { NextFunction, Request, Response } from 'express'
 import { ParamsDictionary } from 'express-serve-static-core'
 import { ObjectId } from 'mongodb'
@@ -20,6 +21,7 @@ import {
 import User from '~/models/schemas/User.schema'
 import databaseService from '~/services/database.services'
 import userService from '~/services/users.services'
+config()
 
 export const loginController = async (req: Request<ParamsDictionary, any, LoginReqBody>, res: Response) => {
   const user = req.user as User
@@ -29,6 +31,13 @@ export const loginController = async (req: Request<ParamsDictionary, any, LoginR
     message: USERS_MESSAGE.LOGIN_SUCCESS,
     result
   })
+}
+
+export const oauthGoogleController = async (req: Request, res: Response) => {
+  const { code } = req.query
+  const result = await userService.oauthGoogle(code as string)
+  const urlRedirect = `${process.env.CLIENT_REDIRECT_CALLBACK}?access_token=${result.access_token}&refresh_token=${result.refresh_token}&new_user=${result.newUser}&verify=${result.verify}`
+  return res.redirect(urlRedirect)
 }
 
 export const registerController = async (
