@@ -80,5 +80,6 @@ export const USERS_MESSAGE = {
   DELETE_USER_SUCCESS: 'Delete user success',
   FOLLOW_SUCCESS: 'Follow success',
   UNFOLLOW_SUCCESS: 'Unfollow success',
-  CHANGE_PASSWORD_SUCCESS: 'Change password success'
+  CHANGE_PASSWORD_SUCCESS: 'Change password success',
+  UPLOAD_SUCCESS: 'Upload success'
 } as const
