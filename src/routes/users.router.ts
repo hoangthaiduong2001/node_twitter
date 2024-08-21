@@ -10,6 +10,7 @@ import {
   loginController,
   logoutController,
   oauthGoogleController,
+  refreshTokenController,
   registerController,
   resetPasswordController,
   unFollowController,
@@ -39,6 +40,7 @@ import { handleRequestHandler } from '~/utils/handler'
 const usersRouter = Router()
 
 usersRouter.post('/register', registerValidator, handleRequestHandler(registerController))
+usersRouter.post('/refresh-token', refreshTokenValidator, handleRequestHandler(refreshTokenController))
 usersRouter.post('/login', loginValidator, handleRequestHandler(loginController))
 usersRouter.get('/oauth/google', handleRequestHandler(oauthGoogleController))
 usersRouter.post('/logout', accessTokenValidator, refreshTokenValidator, handleRequestHandler(logoutController))

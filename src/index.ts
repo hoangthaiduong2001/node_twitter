@@ -1,4 +1,6 @@
+import cors from 'cors'
 import express from 'express'
+import { UPLOAD_VIDEO_DIR } from './constants/dir'
 import { defaultErrorHandler } from './middlewares/error.middleware'
 import mediasRouter from './routes/medias.router'
 import staticRouter from './routes/static.router'
@@ -7,6 +9,7 @@ import databaseService from './services/database.services'
 import { initFolder } from './utils/file'
 
 const app = express()
+app.use(cors())
 const port = 3000
 
 databaseService.connect()
@@ -18,7 +21,7 @@ app.use('/users', usersRouter)
 app.use('/medias', mediasRouter)
 app.use('/static', staticRouter)
 app.use(defaultErrorHandler)
-// app.use('/static', express.static(UPLOAD_IMAGE_DIR))
+app.use('/static/video', express.static(UPLOAD_VIDEO_DIR))
 app.listen(port, () => {
   console.log('listening on port 3000')
 })

@@ -34,14 +34,23 @@ export interface LogoutReqBody {
   refresh_token: string
 }
 
+export interface RefreshTokenReqBody {
+  refresh_token: string
+}
+
 export interface TokenPayload extends JwtPayload {
   user_id: string
   token_type: TokenType
+  verify: UserVerifyStatus
 }
 
 export interface IUserVerify {
   user_id: string
   verify: UserVerifyStatus
+}
+
+export interface IRefreshToken extends IUserVerify {
+  refresh_token: string
 }
 
 export interface ForgotPasswordReqBody {

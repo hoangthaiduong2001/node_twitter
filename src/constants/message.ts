@@ -70,6 +70,7 @@ export const USERS_MESSAGE = {
   GMAIL_NOT_VERIFY: 'Gmail not verify',
 
   LOGIN_SUCCESS: 'Login success',
+  REFRESH_TOKEN_SUCCESS: 'REFRESH_TOKEN_SUCCESS',
   REGISTER_SUCCESS: 'Register success',
   RESET_PASSWORD_SUCCESS: 'Reset password success',
   RESEND_EMAIL_VERIFY_SUCCESS: 'Resend email verify success',
@@ -81,5 +82,6 @@ export const USERS_MESSAGE = {
   FOLLOW_SUCCESS: 'Follow success',
   UNFOLLOW_SUCCESS: 'Unfollow success',
   CHANGE_PASSWORD_SUCCESS: 'Change password success',
-  UPLOAD_SUCCESS: 'Upload success'
+  UPLOAD_SUCCESS: 'Upload success',
+  GET_VIDEO_STATUS_SUCCESS: 'Get video status success'
 } as const

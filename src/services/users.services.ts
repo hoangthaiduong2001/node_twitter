@@ -5,7 +5,7 @@ import { TokenType, UserVerifyStatus } from '~/constants/enums'
 import HTTP_STATUS from '~/constants/httpStatus'
 import { USERS_MESSAGE } from '~/constants/message'
 import { ErrorWithStatus } from '~/models/errors/Errors'
-import { IUserVerify, RegistersReqBody, UpdateMeReqBody } from '~/models/requests/User.requests'
+import { IRefreshToken, IUserVerify, RegistersReqBody, UpdateMeReqBody } from '~/models/requests/User.requests'
 import Follower from '~/models/schemas/Follower.schema'
 import RefreshToken from '~/models/schemas/RefreshToken.schema'
 import User from '~/models/schemas/User.schema'
@@ -185,6 +185,21 @@ class UserService {
         confirm_password: password
       })
       return { ...data, newUser: true, verify: UserVerifyStatus.UNVERIFIED }
+    }
+  }
+
+  async refreshToken({ user_id, verify, refresh_token }: IRefreshToken) {
+    const [new_access_token, new_refresh_token] = await Promise.all([
+      this.signAccessToken({ user_id, verify }),
+      this.signRefreshToken({ user_id, verify }),
+      databaseService.refreshToken.deleteOne({ token: refresh_token })
+    ])
+    await databaseService.refreshToken.insertOne(
+      new RefreshToken({ user_id: new ObjectId(user_id), token: refresh_token })
+    )
+    return {
+      accessToken: new_access_token,
+      refresh_token: new_refresh_token
     }
   }
 
