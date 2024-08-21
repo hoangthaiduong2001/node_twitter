@@ -82,5 +82,6 @@ export const USERS_MESSAGE = {
   FOLLOW_SUCCESS: 'Follow success',
   UNFOLLOW_SUCCESS: 'Unfollow success',
   CHANGE_PASSWORD_SUCCESS: 'Change password success',
-  UPLOAD_SUCCESS: 'Upload success'
+  UPLOAD_SUCCESS: 'Upload success',
+  GET_VIDEO_STATUS_SUCCESS: 'Get video status success'
 } as const

@@ -1,3 +1,4 @@
+import cors from 'cors'
 import express from 'express'
 import { UPLOAD_VIDEO_DIR } from './constants/dir'
 import { defaultErrorHandler } from './middlewares/error.middleware'
@@ -8,6 +9,7 @@ import databaseService from './services/database.services'
 import { initFolder } from './utils/file'
 
 const app = express()
+app.use(cors())
 const port = 3000
 
 databaseService.connect()
