@@ -12,7 +12,12 @@ const app = express()
 app.use(cors())
 const port = 3000
 
-databaseService.connect()
+databaseService.connect().then(() => {
+  databaseService.indexUsers()
+  databaseService.indexRefreshTokens()
+  databaseService.indexVideoStatus()
+  databaseService.indexFollowers()
+})
 initFolder()
 
 app.use(express.json())
