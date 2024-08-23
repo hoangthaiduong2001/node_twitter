@@ -78,7 +78,6 @@ export const confirmPasswordSchema: ParamSchema = {
   custom: {
     options: (value, { req }) => {
       if (value !== req.body.password) {
-        console.log('req.body.password', req.body.password)
         throw new Error(USERS_MESSAGE.CONFIRM_PASSWORD_NOT_MATCH_WITH_PASSWORD)
       }
       return true
@@ -348,6 +347,7 @@ export const emailVerifyTokenSchema: ParamSchema = {
   trim: true,
   custom: {
     options: async (value: string, { req }) => {
+      console.log(value)
       if (!value) {
         throw new ErrorWithStatus({
           status: HTTP_STATUS.UNAUTHORIZED,
@@ -366,7 +366,6 @@ export const emailVerifyTokenSchema: ParamSchema = {
           status: HTTP_STATUS.UNAUTHORIZED
         })
       }
-
       return true
     }
   }

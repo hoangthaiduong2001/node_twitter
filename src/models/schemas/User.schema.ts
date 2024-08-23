@@ -1,7 +1,7 @@
 import { ObjectId } from 'mongodb'
 import { UserVerifyStatus } from '~/constants/enums'
 
-interface UserType {
+interface IUser {
   _id?: ObjectId
   name: string
   email: string
@@ -38,7 +38,7 @@ export default class User {
   avatar: string
   cover_photo: string
 
-  constructor(user: UserType) {
+  constructor(user: IUser) {
     const date = new Date()
     ;(this._id = user._id),
       (this.name = user.name || ''),
