@@ -77,8 +77,7 @@ export const confirmPasswordSchema: ParamSchema = {
   },
   custom: {
     options: (value, { req }) => {
-      if (value !== req.body.new_password) {
-        console.log('req.body.password', req.body.new_password)
+      if (value !== req.body.password) {
         throw new Error(USERS_MESSAGE.CONFIRM_PASSWORD_NOT_MATCH_WITH_PASSWORD)
       }
       return true
@@ -319,7 +318,7 @@ export const refreshTokenSchema: ParamSchema = {
         })
       }
       try {
-        const [decoded_authorization, refresh_token] = await Promise.all([
+        const [decoded_refresh_token, refresh_token] = await Promise.all([
           verifyToken({ token: value, secretOrPublicKey: process.env.JWT_SECRET_REFRESH_TOKEN as string }),
           databaseService.refreshToken.findOne({ token: value })
         ])
@@ -329,7 +328,7 @@ export const refreshTokenSchema: ParamSchema = {
             status: HTTP_STATUS.UNAUTHORIZED
           })
         }
-        ;(req as Request).decoded_authorization = decoded_authorization
+        ;(req as Request).decoded_refresh_token = decoded_refresh_token
       } catch (error) {
         if (error instanceof JsonWebTokenError) {
           throw new ErrorWithStatus({
@@ -348,6 +347,7 @@ export const emailVerifyTokenSchema: ParamSchema = {
   trim: true,
   custom: {
     options: async (value: string, { req }) => {
+      console.log(value)
       if (!value) {
         throw new ErrorWithStatus({
           status: HTTP_STATUS.UNAUTHORIZED,
@@ -366,7 +366,6 @@ export const emailVerifyTokenSchema: ParamSchema = {
           status: HTTP_STATUS.UNAUTHORIZED
         })
       }
-
       return true
     }
   }

@@ -42,11 +42,14 @@ export interface TokenPayload extends JwtPayload {
   user_id: string
   token_type: TokenType
   verify: UserVerifyStatus
+  exp: number
+  iat: number
 }
 
 export interface IUserVerify {
   user_id: string
   verify: UserVerifyStatus
+  exp?: number
 }
 
 export interface IRefreshToken extends IUserVerify {
