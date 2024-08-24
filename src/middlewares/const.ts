@@ -1,14 +1,18 @@
 import { Request } from 'express'
 import { ParamSchema } from 'express-validator'
 import { JsonWebTokenError } from 'jsonwebtoken'
-import { capitalize } from 'lodash'
+import { capitalize, isEmpty } from 'lodash'
 import { ObjectId } from 'mongodb'
+import { MediaType, TweetAudience, TweetType } from '~/constants/enums'
 import HTTP_STATUS from '~/constants/httpStatus'
-import { USERS_MESSAGE } from '~/constants/message'
+import { TWEETS_MESSAGE, USERS_MESSAGE } from '~/constants/message'
+import { Media } from '~/constants/type'
 import { ErrorWithStatus } from '~/models/errors/Errors'
-import { UpdateMeReqBody } from '~/models/requests/User.requests'
+import { TokenPayload, UpdateMeReqBody } from '~/models/requests/User.requests'
+import User from '~/models/schemas/User.schema'
 import databaseService from '~/services/database.services'
 import userService from '~/services/users.services'
+import { convertEnumToArray } from '~/utils/common'
 import { hashPassword } from '~/utils/crypto'
 import { verifyToken } from '~/utils/jwt'
 import { REGEX_USERNAME } from './regex'
@@ -178,6 +182,26 @@ export const nameSchema: ParamSchema = {
       max: 100
     },
     errorMessage: USERS_MESSAGE.NAME_LENGTH_MUST_BE_FROM_1_TO_100
+  }
+}
+
+export const oldPasswordSchema: ParamSchema = {
+  ...passwordSchema,
+  custom: {
+    options: async (value: string, { req }) => {
+      const { user_id } = (req as Request).decoded_authorization as TokenPayload
+      const user = await databaseService.users.findOne({ _id: new ObjectId(user_id) })
+      const { password } = user as User
+      if (!user) {
+        throw new ErrorWithStatus({
+          message: USERS_MESSAGE.USER_NOT_FOUND,
+          status: HTTP_STATUS.NOT_FOUND
+        })
+      }
+      if (password !== hashPassword(value)) {
+        throw new Error(USERS_MESSAGE.OLD_PASSWORD_NOT_MATCH)
+      }
+    }
   }
 }
 
@@ -418,6 +442,99 @@ export const followSchema: ParamSchema = {
           status: HTTP_STATUS.NOT_FOUND
         })
       }
+    }
+  }
+}
+
+/*-------------Tweet-------------*/
+const tweetType = convertEnumToArray(TweetType)
+const audienceType = convertEnumToArray(TweetAudience)
+const mediaTypes = convertEnumToArray(MediaType)
+
+export const audienceTweetSchema: ParamSchema = {
+  isIn: {
+    options: [audienceType],
+    errorMessage: TWEETS_MESSAGE.INVALID_AUDIENCE
+  }
+}
+
+export const typeTweetSchema: ParamSchema = {
+  isIn: {
+    options: [tweetType],
+    errorMessage: TWEETS_MESSAGE.INVALID_TYPE
+  }
+}
+
+export const parentIdTweetSchema: ParamSchema = {
+  custom: {
+    options: (value: string, { req }) => {
+      const type = req.body.type as TweetType
+      if ([TweetType.Retweet, TweetType.Comment, TweetType.QuoteTweet].includes(type) && !ObjectId.isValid(value)) {
+        throw new Error(TWEETS_MESSAGE.PARENT_ID_MUST_BE_A_VALID_TWEET_ID)
+      }
+      if (type === TweetType.Tweet && value !== null) {
+        throw new Error(TWEETS_MESSAGE.PARENT_ID_MUST_NULL)
+      }
+      return true
+    }
+  }
+}
+
+export const contentTweetSchema: ParamSchema = {
+  isString: true,
+  custom: {
+    options: (value: string, { req }) => {
+      const type = req.body.type as TweetType
+      const hashtags = req.body.hashtags as string[]
+      const mentions = req.body.mentions as string[]
+      if (
+        [TweetType.Tweet, TweetType.Comment, TweetType.QuoteTweet].includes(type) &&
+        value === '' &&
+        isEmpty(hashtags) &&
+        isEmpty(mentions)
+      ) {
+        throw new Error(TWEETS_MESSAGE.CONTENT_MUST_BE_A_NON_EMPTY_STRING)
+      }
+      if (type === TweetType.Retweet && value !== '') {
+        throw new Error(TWEETS_MESSAGE.CONTENT_MUST_BE_EMPTY_STRING)
+      }
+      return true
+    }
+  }
+}
+
+export const hashtagsTweetSchema: ParamSchema = {
+  isArray: true,
+  custom: {
+    options: (value: string[], { req }) => {
+      if (value.some((item: string) => typeof item !== 'string')) {
+        throw new Error(TWEETS_MESSAGE.HASHTAGS_MUST_BE_AN_ARRAY_OF_STRING)
+      }
+      return true
+    }
+  }
+}
+
+export const mentionsTweetSchema: ParamSchema = {
+  isArray: true,
+  custom: {
+    options: (value: string[], { req }) => {
+      if (value.some((item: string) => !ObjectId.isValid(item))) {
+        throw new Error(TWEETS_MESSAGE.MENTIONS_MUST_BE_AN_ARRAY_OF_USER_ID)
+      }
+      return true
+    }
+  }
+}
+
+export const mediasTweetSchema: ParamSchema = {
+  isArray: true,
+  custom: {
+    options: (value: Media[], { req }) => {
+      if (value.some((item: Media) => typeof item.url !== 'string' || !mediaTypes.includes(item.type))) {
+        throw new Error(TWEETS_MESSAGE.MEDIAS_MUST_BE_AN_ARRAY_OF_MEDIA_OBJECT)
+      }
+      return true
     }
   }
 }

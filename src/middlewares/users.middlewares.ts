@@ -1,14 +1,10 @@
 import { NextFunction, Request, Response } from 'express'
 import { checkSchema } from 'express-validator'
-import { ObjectId } from 'mongodb'
 import { UserVerifyStatus } from '~/constants/enums'
 import HTTP_STATUS from '~/constants/httpStatus'
 import { USERS_MESSAGE } from '~/constants/message'
 import { ErrorWithStatus } from '~/models/errors/Errors'
 import { TokenPayload } from '~/models/requests/User.requests'
-import User from '~/models/schemas/User.schema'
-import databaseService from '~/services/database.services'
-import { hashPassword } from '~/utils/crypto'
 import { validate } from '~/utils/validation'
 import {
   authorizationSchema,
@@ -24,6 +20,7 @@ import {
   imageSchema,
   locationSchema,
   nameSchema,
+  oldPasswordSchema,
   passwordSchema,
   refreshTokenSchema,
   usernameSchema,
@@ -166,25 +163,7 @@ export const unfollowValidator = validate(
 export const changePasswordValidator = validate(
   checkSchema(
     {
-      old_password: {
-        ...passwordSchema,
-        custom: {
-          options: async (value: string, { req }) => {
-            const { user_id } = (req as Request).decoded_authorization as TokenPayload
-            const user = await databaseService.users.findOne({ _id: new ObjectId(user_id) })
-            const { password } = user as User
-            if (!user) {
-              throw new ErrorWithStatus({
-                message: USERS_MESSAGE.USER_NOT_FOUND,
-                status: HTTP_STATUS.NOT_FOUND
-              })
-            }
-            if (password !== hashPassword(value)) {
-              throw new Error(USERS_MESSAGE.OLD_PASSWORD_NOT_MATCH)
-            }
-          }
-        }
-      },
+      old_password: oldPasswordSchema,
       new_password: passwordSchema,
       confirm_new_password: confirmPasswordSchema
     },
