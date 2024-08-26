@@ -1,7 +1,7 @@
 import { config } from 'dotenv'
 import { Request, Response } from 'express'
 import { ParamsDictionary } from 'express-serve-static-core'
-import { TWEETS_MESSAGE } from '~/constants/message'
+import { BOOKMARK_MESSAGE } from '~/constants/message'
 import { BookmarkReqBody, UnBookmarkByIdReqParams, UnBookmarkTweetReqParams } from '~/models/requests/Bookmark.request'
 import { TokenPayload } from '~/models/requests/User.requests'
 import bookmarkService from '~/services/bookmarks.services'
@@ -11,7 +11,7 @@ export const bookmarkController = async (req: Request<ParamsDictionary, any, Boo
   const { user_id } = req.decoded_authorization as TokenPayload
   const result = await bookmarkService.bookmarkTweet(user_id, req.body.tweet_id)
   return res.json({
-    message: TWEETS_MESSAGE.BOOKMARK_TWEET_SUCCESS,
+    message: BOOKMARK_MESSAGE.BOOKMARK_TWEET_SUCCESS,
     data: result
   })
 }
@@ -20,13 +20,13 @@ export const unBookmarkTweetController = async (req: Request<UnBookmarkTweetReqP
   const { user_id } = req.decoded_authorization as TokenPayload
   const tweet_id = req.params.tweet_id as string
   const result = await bookmarkService.unBookmarkTweet(user_id, tweet_id)
-  if (result === null) {
+  if (!result) {
     return res.json({
-      message: TWEETS_MESSAGE.BOOKMARK_NOT_FOUND
+      message: BOOKMARK_MESSAGE.BOOKMARK_NOT_FOUND
     })
   }
   return res.json({
-    message: TWEETS_MESSAGE.UN_BOOKMARK_TWEET_SUCCESS,
+    message: BOOKMARK_MESSAGE.UN_BOOKMARK_TWEET_SUCCESS,
     data: result
   })
 }
@@ -34,13 +34,8 @@ export const unBookmarkTweetController = async (req: Request<UnBookmarkTweetReqP
 export const unBookmarkByIdController = async (req: Request<UnBookmarkByIdReqParams>, res: Response) => {
   const bookmark_id = req.params.bookmark_id as string
   const result = await bookmarkService.unBookmarkById(bookmark_id)
-  if (result === null) {
-    return res.json({
-      message: TWEETS_MESSAGE.BOOKMARK_NOT_FOUND
-    })
-  }
   return res.json({
-    message: TWEETS_MESSAGE.UN_BOOKMARK_TWEET_SUCCESS,
+    message: BOOKMARK_MESSAGE.UN_BOOKMARK_TWEET_SUCCESS,
     data: result
   })
 }
