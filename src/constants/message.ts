@@ -108,3 +108,11 @@ export const BOOKMARK_MESSAGE = {
   BOOKMARK_ID_NOT_FOUND: 'Bookmark id not found',
   UN_BOOKMARK_TWEET_SUCCESS: 'Remove bookmark tweet success'
 } as const
+
+export const LIKE_MESSAGE = {
+  LIKE_TWEET_SUCCESS: 'Like tweet success',
+  INVALID_LIKE_ID: 'Invalid like id',
+  LIKE_NOT_FOUND: 'Like not found',
+  LIKE_ID_NOT_FOUND: 'Like id not found',
+  UN_LIKE_TWEET_SUCCESS: 'Remove like tweet success'
+} as const
