@@ -52,7 +52,7 @@ class UserService {
       }
     })
   }
-  private signEmailVerifyToken({ user_id, verify }: IUserVerify) {
+  private signEmailVerifyToken({ user_id }: IUserVerify) {
     return signToken({
       payload: {
         user_id,

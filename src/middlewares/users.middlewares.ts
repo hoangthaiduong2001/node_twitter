@@ -7,31 +7,31 @@ import { ErrorWithStatus } from '~/models/errors/Errors'
 import { TokenPayload } from '~/models/requests/User.requests'
 import { validate } from '~/utils/validation'
 import {
-  authorizationSchema,
-  bioSchema,
-  confirmPasswordSchema,
-  dateOfBirthSchema,
-  emailForgotPassword,
-  emailLoginSchema,
-  emailSchema,
-  emailVerifyTokenSchema,
-  followSchema,
-  forgotPasswordTokenSchema,
-  imageSchema,
-  locationSchema,
-  nameSchema,
-  oldPasswordSchema,
-  passwordSchema,
-  refreshTokenSchema,
-  usernameSchema,
-  websiteSchema
+  authorizationValidatorSchema,
+  bioValidatorSchema,
+  confirmPasswordValidatorSchema,
+  dateOfBirthValidatorSchema,
+  emailForgotPasswordValidatorSchema,
+  emailLoginValidatorSchema,
+  emailValidatorSchema,
+  emailVerifyTokenValidatorSchema,
+  followValidatorSchema,
+  forgotPasswordTokenValidatorSchema,
+  imageValidatorSchema,
+  locationValidatorSchema,
+  nameValidatorSchema,
+  oldPasswordValidatorSchema,
+  passwordValidatorSchema,
+  refreshTokenValidatorSchema,
+  usernameValidatorSchema,
+  websiteValidatorSchema
 } from './const'
 
 export const loginValidator = validate(
   checkSchema(
     {
-      email: emailLoginSchema,
-      password: passwordSchema
+      email: emailLoginValidatorSchema,
+      password: passwordValidatorSchema
     },
     ['body']
   )
@@ -40,11 +40,11 @@ export const loginValidator = validate(
 export const registerValidator = validate(
   checkSchema(
     {
-      name: nameSchema,
-      email: emailSchema,
-      password: passwordSchema,
-      confirmPassword: confirmPasswordSchema,
-      dateOfBirth: dateOfBirthSchema
+      name: nameValidatorSchema,
+      email: emailValidatorSchema,
+      password: passwordValidatorSchema,
+      confirmPassword: confirmPasswordValidatorSchema,
+      dateOfBirth: dateOfBirthValidatorSchema
     },
     ['body']
   )
@@ -53,7 +53,7 @@ export const registerValidator = validate(
 export const accessTokenValidator = validate(
   checkSchema(
     {
-      Authorization: authorizationSchema
+      Authorization: authorizationValidatorSchema
     },
     ['headers']
   )
@@ -62,7 +62,7 @@ export const accessTokenValidator = validate(
 export const refreshTokenValidator = validate(
   checkSchema(
     {
-      refresh_token: refreshTokenSchema
+      refresh_token: refreshTokenValidatorSchema
     },
     ['body']
   )
@@ -71,7 +71,7 @@ export const refreshTokenValidator = validate(
 export const emailVerifyTokenValidator = validate(
   checkSchema(
     {
-      email_verify_token: emailVerifyTokenSchema
+      email_verify_token: emailVerifyTokenValidatorSchema
     },
     ['body']
   )
@@ -80,7 +80,7 @@ export const emailVerifyTokenValidator = validate(
 export const forgotPasswordValidator = validate(
   checkSchema(
     {
-      email: emailForgotPassword
+      email: emailForgotPasswordValidatorSchema
     },
     ['body']
   )
@@ -89,7 +89,7 @@ export const forgotPasswordValidator = validate(
 export const verifyForgotPasswordTokenValidator = validate(
   checkSchema(
     {
-      forgot_password_token: forgotPasswordTokenSchema
+      forgot_password_token: forgotPasswordTokenValidatorSchema
     },
     ['body']
   )
@@ -98,9 +98,9 @@ export const verifyForgotPasswordTokenValidator = validate(
 export const resetPasswordValidator = validate(
   checkSchema(
     {
-      password: passwordSchema,
-      confirm_password: confirmPasswordSchema,
-      forgot_password_token: forgotPasswordTokenSchema
+      password: passwordValidatorSchema,
+      confirm_password: confirmPasswordValidatorSchema,
+      forgot_password_token: forgotPasswordTokenValidatorSchema
     },
     ['body']
   )
@@ -123,20 +123,20 @@ export const updateMeValidator = validate(
   checkSchema(
     {
       name: {
-        ...nameSchema,
+        ...nameValidatorSchema,
         optional: true,
         notEmpty: undefined
       },
       date_of_birth: {
-        ...dateOfBirthSchema,
+        ...dateOfBirthValidatorSchema,
         optional: true
       },
-      bio: bioSchema,
-      location: locationSchema,
-      website: websiteSchema,
-      username: usernameSchema,
-      avatar: imageSchema,
-      cover_photo: imageSchema
+      bio: bioValidatorSchema,
+      location: locationValidatorSchema,
+      website: websiteValidatorSchema,
+      username: usernameValidatorSchema,
+      avatar: imageValidatorSchema,
+      cover_photo: imageValidatorSchema
     },
     ['body']
   )
@@ -145,7 +145,7 @@ export const updateMeValidator = validate(
 export const followValidator = validate(
   checkSchema(
     {
-      followed_user_id: followSchema
+      followed_user_id: followValidatorSchema
     },
     ['body']
   )
@@ -154,7 +154,7 @@ export const followValidator = validate(
 export const unfollowValidator = validate(
   checkSchema(
     {
-      followed_user_id: followSchema
+      followed_user_id: followValidatorSchema
     },
     ['params']
   )
@@ -163,9 +163,9 @@ export const unfollowValidator = validate(
 export const changePasswordValidator = validate(
   checkSchema(
     {
-      old_password: oldPasswordSchema,
-      new_password: passwordSchema,
-      confirm_new_password: confirmPasswordSchema
+      old_password: oldPasswordValidatorSchema,
+      new_password: passwordValidatorSchema,
+      confirm_new_password: confirmPasswordValidatorSchema
     },
     ['body']
   )

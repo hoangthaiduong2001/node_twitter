@@ -28,7 +28,7 @@ export const filterKeysBodyUpdateUser: Array<keyof UpdateMeReqBody> = [
   'cover_photo'
 ]
 
-export const passwordSchema: ParamSchema = {
+export const passwordValidatorSchema: ParamSchema = {
   isString: {
     errorMessage: USERS_MESSAGE.PASSWORD_MUST_BE_STRING
   },
@@ -55,7 +55,7 @@ export const passwordSchema: ParamSchema = {
   errorMessage: USERS_MESSAGE.PASSWORD_WRONG_FORMAT
 }
 
-export const confirmPasswordSchema: ParamSchema = {
+export const confirmPasswordValidatorSchema: ParamSchema = {
   isString: {
     errorMessage: USERS_MESSAGE.CONFIRM_PASSWORD_MUST_BE_STRING
   },
@@ -90,7 +90,7 @@ export const confirmPasswordSchema: ParamSchema = {
   errorMessage: USERS_MESSAGE.CONFIRM_PASSWORD_WRONG_FORMAT
 }
 
-export const forgotPasswordTokenSchema: ParamSchema = {
+export const forgotPasswordTokenValidatorSchema: ParamSchema = {
   trim: true,
   custom: {
     options: async (value: string, { req }) => {
@@ -132,7 +132,7 @@ export const forgotPasswordTokenSchema: ParamSchema = {
   }
 }
 
-export const emailSchema: ParamSchema = {
+export const emailValidatorSchema: ParamSchema = {
   isEmail: {
     errorMessage: USERS_MESSAGE.EMAIL_IS_INVALID
   },
@@ -151,7 +151,7 @@ export const emailSchema: ParamSchema = {
   }
 }
 
-export const emailForgotPassword: ParamSchema = {
+export const emailForgotPasswordValidatorSchema: ParamSchema = {
   isEmail: {
     errorMessage: USERS_MESSAGE.EMAIL_IS_INVALID
   },
@@ -168,7 +168,7 @@ export const emailForgotPassword: ParamSchema = {
   }
 }
 
-export const nameSchema: ParamSchema = {
+export const nameValidatorSchema: ParamSchema = {
   isString: {
     errorMessage: USERS_MESSAGE.NAME_MUST_BE_STRING
   },
@@ -185,8 +185,8 @@ export const nameSchema: ParamSchema = {
   }
 }
 
-export const oldPasswordSchema: ParamSchema = {
-  ...passwordSchema,
+export const oldPasswordValidatorSchema: ParamSchema = {
+  ...passwordValidatorSchema,
   custom: {
     options: async (value: string, { req }) => {
       const { user_id } = (req as Request).decoded_authorization as TokenPayload
@@ -205,7 +205,7 @@ export const oldPasswordSchema: ParamSchema = {
   }
 }
 
-export const dateOfBirthSchema: ParamSchema = {
+export const dateOfBirthValidatorSchema: ParamSchema = {
   isISO8601: {
     options: {
       strict: true,
@@ -215,7 +215,7 @@ export const dateOfBirthSchema: ParamSchema = {
   }
 }
 
-export const bioSchema: ParamSchema = {
+export const bioValidatorSchema: ParamSchema = {
   optional: true,
   isString: {
     errorMessage: USERS_MESSAGE.BIO_MUST_BE_STRING
@@ -230,7 +230,7 @@ export const bioSchema: ParamSchema = {
   }
 }
 
-export const locationSchema: ParamSchema = {
+export const locationValidatorSchema: ParamSchema = {
   optional: true,
   isString: {
     errorMessage: USERS_MESSAGE.LOCATION_MUST_BE_STRING
@@ -245,7 +245,7 @@ export const locationSchema: ParamSchema = {
   }
 }
 
-export const websiteSchema: ParamSchema = {
+export const websiteValidatorSchema: ParamSchema = {
   optional: true,
   isString: {
     errorMessage: USERS_MESSAGE.WEBSITE_MUST_BE_STRING
@@ -260,7 +260,7 @@ export const websiteSchema: ParamSchema = {
   }
 }
 
-export const usernameSchema: ParamSchema = {
+export const usernameValidatorSchema: ParamSchema = {
   optional: true,
   isString: {
     errorMessage: USERS_MESSAGE.USERNAME_MUST_BE_STRING
@@ -279,7 +279,7 @@ export const usernameSchema: ParamSchema = {
   }
 }
 
-export const avatarSchema: ParamSchema = {
+export const avatarValidatorSchema: ParamSchema = {
   optional: true,
   isString: {
     errorMessage: USERS_MESSAGE.IMAGE_MUST_BE_STRING
@@ -294,7 +294,7 @@ export const avatarSchema: ParamSchema = {
   }
 }
 
-export const imageSchema: ParamSchema = {
+export const imageValidatorSchema: ParamSchema = {
   optional: true,
   isString: {
     errorMessage: USERS_MESSAGE.IMAGE_MUST_BE_STRING
@@ -309,7 +309,7 @@ export const imageSchema: ParamSchema = {
   }
 }
 
-export const emailLoginSchema: ParamSchema = {
+export const emailLoginValidatorSchema: ParamSchema = {
   isEmail: {
     errorMessage: USERS_MESSAGE.EMAIL_IS_INVALID
   },
@@ -331,7 +331,7 @@ export const emailLoginSchema: ParamSchema = {
   }
 }
 
-export const refreshTokenSchema: ParamSchema = {
+export const refreshTokenValidatorSchema: ParamSchema = {
   trim: true,
   custom: {
     options: async (value: string, { req }) => {
@@ -367,7 +367,7 @@ export const refreshTokenSchema: ParamSchema = {
   }
 }
 
-export const emailVerifyTokenSchema: ParamSchema = {
+export const emailVerifyTokenValidatorSchema: ParamSchema = {
   trim: true,
   custom: {
     options: async (value: string, { req }) => {
@@ -395,7 +395,7 @@ export const emailVerifyTokenSchema: ParamSchema = {
   }
 }
 
-export const authorizationSchema: ParamSchema = {
+export const authorizationValidatorSchema: ParamSchema = {
   trim: true,
   custom: {
     options: async (value: string, { req }) => {
@@ -424,7 +424,7 @@ export const authorizationSchema: ParamSchema = {
   }
 }
 
-export const followSchema: ParamSchema = {
+export const followValidatorSchema: ParamSchema = {
   custom: {
     options: async (value: string, { req }) => {
       const followed_user = await databaseService.users.findOne({
@@ -451,21 +451,21 @@ const tweetType = convertEnumToArray(TweetType)
 const audienceType = convertEnumToArray(TweetAudience)
 const mediaTypes = convertEnumToArray(MediaType)
 
-export const audienceTweetSchema: ParamSchema = {
+export const audienceTweetValidatorSchema: ParamSchema = {
   isIn: {
     options: [audienceType],
     errorMessage: TWEETS_MESSAGE.INVALID_AUDIENCE
   }
 }
 
-export const typeTweetSchema: ParamSchema = {
+export const typeTweetValidatorSchema: ParamSchema = {
   isIn: {
     options: [tweetType],
     errorMessage: TWEETS_MESSAGE.INVALID_TYPE
   }
 }
 
-export const parentIdTweetSchema: ParamSchema = {
+export const parentIdTweetValidatorSchema: ParamSchema = {
   custom: {
     options: (value: string, { req }) => {
       const type = req.body.type as TweetType
@@ -480,7 +480,7 @@ export const parentIdTweetSchema: ParamSchema = {
   }
 }
 
-export const contentTweetSchema: ParamSchema = {
+export const contentTweetValidatorSchema: ParamSchema = {
   isString: true,
   custom: {
     options: (value: string, { req }) => {
@@ -503,7 +503,7 @@ export const contentTweetSchema: ParamSchema = {
   }
 }
 
-export const hashtagsTweetSchema: ParamSchema = {
+export const hashtagsTweetValidatorSchema: ParamSchema = {
   isArray: true,
   custom: {
     options: (value: string[], { req }) => {
@@ -515,7 +515,7 @@ export const hashtagsTweetSchema: ParamSchema = {
   }
 }
 
-export const mentionsTweetSchema: ParamSchema = {
+export const mentionsTweetValidatorSchema: ParamSchema = {
   isArray: true,
   custom: {
     options: (value: string[], { req }) => {
@@ -527,7 +527,7 @@ export const mentionsTweetSchema: ParamSchema = {
   }
 }
 
-export const mediasTweetSchema: ParamSchema = {
+export const mediasTweetValidatorSchema: ParamSchema = {
   isArray: true,
   custom: {
     options: (value: Media[], { req }) => {
