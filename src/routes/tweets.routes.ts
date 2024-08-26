@@ -7,7 +7,7 @@ import { handleRequestHandler } from '~/utils/handler'
 const tweetsRouter = Router()
 
 tweetsRouter.post(
-  '/',
+  '',
   accessTokenValidator,
   verifiedUserValidator,
   createTweetValidator,

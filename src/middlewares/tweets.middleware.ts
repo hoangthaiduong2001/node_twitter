@@ -1,25 +1,25 @@
 import { checkSchema } from 'express-validator'
 import { validate } from '~/utils/validation'
 import {
-  audienceTweetSchema,
-  contentTweetSchema,
-  hashtagsTweetSchema,
-  mediasTweetSchema,
-  mentionsTweetSchema,
-  parentIdTweetSchema,
-  typeTweetSchema
+  audienceTweetValidatorSchema,
+  contentTweetValidatorSchema,
+  hashtagsTweetValidatorSchema,
+  mediasTweetValidatorSchema,
+  mentionsTweetValidatorSchema,
+  parentIdTweetValidatorSchema,
+  typeTweetValidatorSchema
 } from './const'
 
 export const createTweetValidator = validate(
   checkSchema(
     {
-      type: typeTweetSchema,
-      audience: audienceTweetSchema,
-      parent_id: parentIdTweetSchema,
-      content: contentTweetSchema,
-      hashtags: hashtagsTweetSchema,
-      mentions: mentionsTweetSchema,
-      medias: mediasTweetSchema
+      type: typeTweetValidatorSchema,
+      audience: audienceTweetValidatorSchema,
+      parent_id: parentIdTweetValidatorSchema,
+      content: contentTweetValidatorSchema,
+      hashtags: hashtagsTweetValidatorSchema,
+      mentions: mentionsTweetValidatorSchema,
+      medias: mediasTweetValidatorSchema
     },
     ['body']
   )

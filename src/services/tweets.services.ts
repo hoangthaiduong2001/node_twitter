@@ -1,4 +1,4 @@
-import { ModifyResult, ObjectId, WithId } from 'mongodb'
+import { ObjectId } from 'mongodb'
 import { TweetRequestBody } from '~/models/requests/Tweet.request'
 import Hashtag from '~/models/schemas/Hashtag.schema'
 import Tweet from '~/models/schemas/Tweet.schema'
@@ -6,7 +6,7 @@ import databaseService from './database.services'
 
 class TweetService {
   async checkAndCreateHashtags(hashtags: string[]) {
-    const hashtagDocuments = (await Promise.all(
+    const hashtagDocuments = await Promise.all(
       hashtags.map((hashtag) => {
         return databaseService.hashtags.findOneAndUpdate(
           { name: hashtag },
@@ -14,8 +14,8 @@ class TweetService {
           { upsert: true, returnDocument: 'after' }
         )
       })
-    )) as unknown as ModifyResult<Hashtag>[]
-    return hashtagDocuments.map((hashtag) => (hashtag.value as WithId<Hashtag>)._id)
+    )
+    return hashtagDocuments.map((hashtag) => hashtag?._id as ObjectId)
   }
   async createTweet(user_id: string, body: TweetRequestBody) {
     const hashtags = await this.checkAndCreateHashtags(body.hashtags)
