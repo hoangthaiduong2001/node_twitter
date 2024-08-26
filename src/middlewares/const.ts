@@ -15,7 +15,7 @@ import userService from '~/services/users.services'
 import { convertEnumToArray } from '~/utils/common'
 import { hashPassword } from '~/utils/crypto'
 import { verifyToken } from '~/utils/jwt'
-import { REGEX_USERNAME } from './regex'
+import { REGEX_USERNAME } from '../utils/regex'
 
 export const filterKeysBodyUpdateUser: Array<keyof UpdateMeReqBody> = [
   'name',
