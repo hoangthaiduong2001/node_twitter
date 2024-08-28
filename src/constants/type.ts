@@ -9,3 +9,8 @@ export interface Media {
   url: string
   type: MediaType
 }
+
+export interface ViewsType {
+  guest_views: number
+  user_views: number
+}

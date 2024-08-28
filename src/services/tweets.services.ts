@@ -1,4 +1,5 @@
-import { ObjectId } from 'mongodb'
+import { ObjectId, WithId } from 'mongodb'
+import { ViewsType } from '~/constants/type'
 import { TweetRequestBody } from '~/models/requests/Tweet.request'
 import Hashtag from '~/models/schemas/Hashtag.schema'
 import Tweet from '~/models/schemas/Tweet.schema'
@@ -33,6 +34,27 @@ class TweetService {
     )
     const tweet = await databaseService.tweets.findOne({ _id: result.insertedId })
     return tweet
+  }
+  async increaseView(tweet_id: string, user_id?: string) {
+    const inc = user_id ? { user_views: 1 } : { guest_views: 1 }
+    console.log('inc', inc)
+    const result = await databaseService.tweets.findOneAndUpdate(
+      { _id: new ObjectId(tweet_id) },
+      {
+        $inc: inc,
+        $currentDate: {
+          updated_at: true
+        }
+      },
+      {
+        returnDocument: 'after',
+        projection: {
+          guest_views: 1,
+          user_views: 1
+        }
+      }
+    )
+    return result as WithId<ViewsType>
   }
 }
 const tweetService = new TweetService()
