@@ -1,7 +1,9 @@
 import { config } from 'dotenv'
 import { Request, Response } from 'express'
 import { ParamsDictionary } from 'express-serve-static-core'
+import HTTP_STATUS from '~/constants/httpStatus'
 import { BOOKMARK_MESSAGE } from '~/constants/message'
+import { ErrorWithStatus } from '~/models/errors/Errors'
 import { BookmarkReqBody, UnBookmarkByIdReqParams, UnBookmarkTweetReqParams } from '~/models/requests/Bookmark.request'
 import { TokenPayload } from '~/models/requests/User.requests'
 import bookmarkService from '~/services/bookmarks.services'
@@ -21,7 +23,8 @@ export const unBookmarkTweetController = async (req: Request<UnBookmarkTweetReqP
   const tweet_id = req.params.tweet_id as string
   const result = await bookmarkService.unBookmarkTweet(user_id, tweet_id)
   if (!result) {
-    return res.json({
+    throw new ErrorWithStatus({
+      status: HTTP_STATUS.NOT_FOUND,
       message: BOOKMARK_MESSAGE.BOOKMARK_NOT_FOUND
     })
   }

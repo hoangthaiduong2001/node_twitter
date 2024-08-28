@@ -14,10 +14,11 @@ export const validate = (validations: RunnableValidationChains<ValidationChain>)
     const errorObject = error.mapped()
     const entityError = new EntityError({ errors: {} })
     for (const key in errorObject) {
-      entityError.errors[key] = errorObject[key]
-      if (entityError instanceof ErrorWithStatus && entityError.status !== HTTP_STATUS.UNPROCESSABLE_ENTITY) {
-        return next(errorObject[key])
+      const { msg } = errorObject[key]
+      if (msg instanceof ErrorWithStatus && msg.status !== HTTP_STATUS.UNPROCESSABLE_ENTITY) {
+        return next(msg)
       }
+      entityError.errors[key] = errorObject[key]
     }
     next(entityError)
   }
