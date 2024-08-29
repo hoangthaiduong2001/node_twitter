@@ -13,7 +13,7 @@ interface ITweet {
   mentions: string[]
   medias: Media[]
   guest_views?: number
-  user_view?: number
+  user_views?: number
   create_at?: Date
   updated_at?: Date
 }
@@ -29,7 +29,7 @@ export default class Tweet {
   mentions: ObjectId[]
   medias: Media[]
   guest_views: number
-  user_view: number
+  user_views: number
   create_at: Date
   updated_at: Date
 
@@ -44,7 +44,7 @@ export default class Tweet {
     parent_id,
     type,
     user_id,
-    user_view,
+    user_views,
     create_at,
     updated_at
   }: ITweet) {
@@ -59,7 +59,7 @@ export default class Tweet {
     this.mentions = mentions.map((item) => new ObjectId(item))
     this.medias = medias
     this.guest_views = guest_views || 0
-    this.user_view = user_view || 0
+    this.user_views = user_views || 0
     this.create_at = create_at || date
     this.updated_at = updated_at || date
   }
