@@ -38,6 +38,7 @@
     "typescript": "^5.5.3"
   },
   "dependencies": {
+    "@faker-js/faker": "^8.4.1",
     "@types/cors": "^2.8.17",
     "axios": "^1.7.3",
     "cors": "^2.8.5",
