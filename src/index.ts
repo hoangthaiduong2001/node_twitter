@@ -1,5 +1,6 @@
 import cors from 'cors'
 import express from 'express'
+// import '~/utils/fake'
 import { UPLOAD_VIDEO_DIR } from './constants/dir'
 import { defaultErrorHandler } from './middlewares/error.middleware'
 import bookmarksRouter from './routes/bookmarks.routes'
