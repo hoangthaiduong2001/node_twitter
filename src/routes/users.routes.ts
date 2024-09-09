@@ -16,7 +16,7 @@ import {
   unFollowController,
   updateUserProfileController,
   verifyForgotPasswordTokenController
-} from '~/controllers/users.controllers'
+} from '~/controllers/users.controller'
 import { filterKeysBodyUpdateUser } from '~/middlewares/const'
 import { filterMiddleware } from '~/middlewares/filter.middleware'
 import {

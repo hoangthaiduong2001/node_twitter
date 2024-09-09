@@ -6,6 +6,7 @@ import { defaultErrorHandler } from './middlewares/error.middleware'
 import bookmarksRouter from './routes/bookmarks.routes'
 import likesRouter from './routes/likes.routes'
 import mediasRouter from './routes/medias.routes'
+import searchRouter from './routes/search.routes'
 import staticRouter from './routes/static.routes'
 import tweetsRouter from './routes/tweets.routes'
 import usersRouter from './routes/users.routes'
@@ -31,6 +32,7 @@ app.use('/medias', mediasRouter)
 app.use('/static', staticRouter)
 app.use('/tweet', tweetsRouter)
 app.use('/bookmark', bookmarksRouter)
+app.use('/search', searchRouter)
 app.use('/like', likesRouter)
 app.use(defaultErrorHandler)
 app.use('/static/video', express.static(UPLOAD_VIDEO_DIR))

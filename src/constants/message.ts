@@ -120,3 +120,7 @@ export const LIKE_MESSAGE = {
   LIKE_ID_NOT_FOUND: 'Like id not found',
   UN_LIKE_TWEET_SUCCESS: 'Remove like tweet success'
 } as const
+
+export const SEARCH = {
+  SEARCH_SUCCESS: 'Search success'
+}
