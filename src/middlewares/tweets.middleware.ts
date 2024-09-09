@@ -77,7 +77,15 @@ export const audienceValidator = async (req: Request, res: Response, next: NextF
 export const getTweetChildrenValidator = validate(
   checkSchema(
     {
-      tweet_type: tweetTypeValidatorSchema,
+      tweet_type: tweetTypeValidatorSchema
+    },
+    ['query']
+  )
+)
+
+export const paginationValidator = validate(
+  checkSchema(
+    {
       limit: tweetLimitValidatorSchema,
       page: tweetPageValidatorSchema
     },

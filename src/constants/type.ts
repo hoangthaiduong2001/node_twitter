@@ -23,3 +23,9 @@ export interface ITweetChildren {
   limit: number
   page: number
 }
+
+export interface IGetFeeds {
+  user_id: string
+  limit: number
+  page: number
+}

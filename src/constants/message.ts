@@ -101,7 +101,8 @@ export const TWEETS_MESSAGE = {
   CREATE_TWEET_SUCCESS: 'Create tweet success',
   TWEET_IS_NOT_PUBLIC: 'Tweet is not public',
   GET_TWEET_SUCCESS: 'Get tweet success',
-  GET_TWEET_CHILDREN_SUCCESS: 'Get tweet children success'
+  GET_TWEET_CHILDREN_SUCCESS: 'Get tweet children success',
+  GET_NEW_FEEDS_SUCCESS: 'Get new feeds success'
 } as const
 
 export const BOOKMARK_MESSAGE = {
