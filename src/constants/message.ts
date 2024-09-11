@@ -58,7 +58,7 @@ export const USERS_MESSAGE = {
   USERNAME_LENGTH_MUST_BE_FROM_1_TO_50: 'Website length must be from 1 to 50',
   USERNAME_INVALID:
     'Username must be 4-15 characters long and contain only letters, numbers, underscores, not only numbers',
-  USERNAME_EXISTED: 'Username existed',
+  USERNAME_EXISTED: 'Username already exists',
 
   IMAGE_MUST_BE_STRING: 'Image must be string',
   IMAGE_URL_LENGTH_MUST_BE_FROM_1_TO_400: 'Image url length must be from 1 to 200',

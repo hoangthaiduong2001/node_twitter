@@ -1,5 +1,7 @@
 import { SendEmailCommand, SESClient } from '@aws-sdk/client-ses'
 import { config } from 'dotenv'
+import fs from 'fs'
+import path from 'path'
 
 config()
 // Create SES service object.
@@ -51,7 +53,7 @@ const createSendEmailCommand = ({
   })
 }
 
-export const sendVerifyEmail = (toAddress: string | string[], subject: string, body: string) => {
+const sendVerifyEmail = (toAddress: string | string[], subject: string, body: string) => {
   const sendEmailCommand = createSendEmailCommand({
     fromAddress: process.env.SES_FROM_ADDRESS as string,
     toAddresses: toAddress,
@@ -60,4 +62,22 @@ export const sendVerifyEmail = (toAddress: string | string[], subject: string, b
   })
 
   return sesClient.send(sendEmailCommand)
+}
+
+export const verifyEmailTemplate = fs.readFileSync(path.resolve('src/template/template-email.html'), 'utf8')
+
+export const sendVerifyEmailTemplate = (
+  toAddress: string,
+  email_verify_token: string,
+  template: string = verifyEmailTemplate
+) => {
+  return sendVerifyEmail(
+    toAddress,
+    'Verify your email',
+    template
+      .replace('{{title}}', 'Please verify your email')
+      .replace('{{content}}', 'Click button below to verify your email')
+      .replace('{{titleLink}}', 'Verify')
+      .replace('{{link}}', `${process.env.CLIENT_URL}/users/email-verify?token=${email_verify_token}`)
+  )
 }
