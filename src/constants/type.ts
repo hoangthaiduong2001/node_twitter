@@ -1,4 +1,4 @@
-import { MediaType, TweetType } from './enums'
+import { MediaType, PeopleFollow, SearchQueryType, TweetType } from './enums'
 
 export interface IPlainObject {
   // eslint-disable-next-line @typescript-eslint/no-explicit-any
@@ -28,4 +28,13 @@ export interface IGetFeeds {
   user_id: string
   limit: number
   page: number
+}
+
+export interface ISearchQuery {
+  limit: number
+  page: number
+  content: string
+  user_id: string
+  search_type?: SearchQueryType
+  people_follow?: PeopleFollow
 }

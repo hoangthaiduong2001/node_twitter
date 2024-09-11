@@ -10,6 +10,7 @@ import Follower from '~/models/schemas/Follower.schema'
 import RefreshToken from '~/models/schemas/RefreshToken.schema'
 import User from '~/models/schemas/User.schema'
 import { hashPassword } from '~/utils/crypto'
+import { sendVerifyEmail } from '~/utils/email'
 import { signToken, verifyToken } from '~/utils/jwt'
 import databaseService from './database.services'
 config()
@@ -150,6 +151,12 @@ class UserService {
     const { iat, exp } = await this.decodeRefreshToken(refresh_token)
     await databaseService.refreshToken.insertOne(
       new RefreshToken({ user_id: new ObjectId(user_id), token: refresh_token, iat, exp })
+    )
+    await sendVerifyEmail(
+      payload.email,
+      'Verify your email',
+      `<h1>Verify your email</h1>
+      <p>Click <a href="${process.env.CLIENT_URL}/users/email-verify?token=${email_verify_token}">here</a> to verify your email</p>`
     )
     return {
       access_token,
