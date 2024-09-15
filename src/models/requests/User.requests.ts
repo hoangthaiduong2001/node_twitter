@@ -49,6 +49,7 @@ export interface TokenPayload extends JwtPayload {
 export interface IUserVerify {
   user_id: string
   verify: UserVerifyStatus
+  email?: string
   exp?: number
 }
 

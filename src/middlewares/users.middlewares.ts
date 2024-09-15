@@ -41,6 +41,7 @@ export const registerValidator = validate(
   checkSchema(
     {
       name: nameValidatorSchema,
+      username: usernameValidatorSchema,
       email: emailValidatorSchema,
       password: passwordValidatorSchema,
       confirmPassword: confirmPasswordValidatorSchema,

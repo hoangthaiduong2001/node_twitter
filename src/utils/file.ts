@@ -2,13 +2,12 @@ import { Request } from 'express'
 import formidable, { Fields, File, Files, Part } from 'formidable'
 import fs from 'fs'
 import { IncomingMessage } from 'http'
-import path from 'path'
-import { UPLOAD_IMAGE_TEMP_DIR, UPLOAD_VIDEO_DIR, UPLOAD_VIDEO_TEMP_DIR } from '~/constants/dir'
+import { UPLOAD_IMAGE_TEMP_DIR, UPLOAD_VIDEO_TEMP_DIR } from '~/constants/dir'
 
 export const initFolder = () => {
   ;[UPLOAD_IMAGE_TEMP_DIR, UPLOAD_VIDEO_TEMP_DIR].forEach((dir) => {
     if (!fs.existsSync(dir)) {
-      fs.mkdirSync(UPLOAD_IMAGE_TEMP_DIR, {
+      fs.mkdirSync(dir, {
         recursive: true //create folder nested example: uploads/image
       })
     }
@@ -53,12 +52,8 @@ export const handleUploadImage = (req: Request) => {
 }
 
 export const handleUploadVideo = async (req: Request) => {
-  const nanoId = (await import('nanoid')).nanoid
-  const idName = nanoId()
-  const folderPath = path.resolve(UPLOAD_VIDEO_DIR, idName)
-  fs.mkdirSync(folderPath)
   const form = formidable({
-    uploadDir: folderPath,
+    uploadDir: UPLOAD_VIDEO_TEMP_DIR,
     maxFiles: 1,
     maxFieldsSize: 50 * 1024 * 1024,
     filter: function ({ name, originalFilename, mimetype }: Part) {
@@ -67,9 +62,6 @@ export const handleUploadVideo = async (req: Request) => {
         form.emit('error' as any, new Error('File type is not valid') as any)
       }
       return valid
-    },
-    filename: function () {
-      return idName
     }
   })
   return new Promise<File[]>((resolve, reject) => {
@@ -77,6 +69,7 @@ export const handleUploadVideo = async (req: Request) => {
       if (err) {
         return reject(err)
       }
+      console.log('files', files)
       // eslint-disable-next-line no-extra-boolean-cast
       if (!Boolean(files.video)) {
         return reject(new Error('File is empty'))

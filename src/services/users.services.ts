@@ -10,6 +10,7 @@ import Follower from '~/models/schemas/Follower.schema'
 import RefreshToken from '~/models/schemas/RefreshToken.schema'
 import User from '~/models/schemas/User.schema'
 import { hashPassword } from '~/utils/crypto'
+import { sendForgotPasswordTemplate, sendVerifyEmailTemplate } from '~/utils/email'
 import { signToken, verifyToken } from '~/utils/jwt'
 import databaseService from './database.services'
 config()
@@ -151,6 +152,7 @@ class UserService {
     await databaseService.refreshToken.insertOne(
       new RefreshToken({ user_id: new ObjectId(user_id), token: refresh_token, iat, exp })
     )
+    await sendVerifyEmailTemplate(payload.email, email_verify_token)
     return {
       access_token,
       refresh_token
@@ -274,8 +276,9 @@ class UserService {
     }
   }
 
-  async resendEmailVerify(user_id: string) {
+  async resendEmailVerify(user_id: string, email: string) {
     const email_verify_token = await this.signEmailVerifyToken({ user_id, verify: UserVerifyStatus.UNVERIFIED })
+    await sendVerifyEmailTemplate(email, email_verify_token)
     await databaseService.users.updateOne(
       { _id: new ObjectId(user_id) },
       {
@@ -292,8 +295,9 @@ class UserService {
     }
   }
 
-  async forgotPassword({ user_id, verify }: IUserVerify) {
+  async forgotPassword({ user_id, verify, email }: IUserVerify) {
     const forgot_password_token = await this.signForgotPasswordToken({ user_id, verify })
+    await sendForgotPasswordTemplate(email as string, forgot_password_token)
     await databaseService.users.updateOne(
       {
         _id: new ObjectId(user_id)
@@ -307,7 +311,6 @@ class UserService {
         }
       }
     )
-    console.log('forgot_password_token', forgot_password_token)
     return {
       message: USERS_MESSAGE.CHECK_EMAIL_TO_RESET_PASSWORD
     }

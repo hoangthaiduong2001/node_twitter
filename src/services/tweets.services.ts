@@ -464,7 +464,7 @@ class TweetService {
     })
     return {
       feeds,
-      total: total[0]?.count
+      total: total[0]?.count || 0
     }
   }
 }
