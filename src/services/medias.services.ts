@@ -113,12 +113,13 @@ class MediasService {
         const pathname = path.resolve(UPLOAD_IMAGE_DIR, filename)
         const extension = getExtension(file.newFilename)
         await sharp(`${file.filepath}.${extension}`).jpeg().toFile(pathname)
+
         const s3Result = await uploadFileToS3({
           filename: 'images/' + filename,
           pathname,
           contentType: mime.getType(pathname) as string
         })
-        await Promise.all([fsPromise.unlink(`${file.filepath}.${extension}`), fsPromise.unlink(pathname)])
+        await fsPromise.unlink(pathname)
         return {
           url: (s3Result as CompleteMultipartUploadCommandOutput).Location as string,
           type: MediaType.Image
