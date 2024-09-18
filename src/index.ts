@@ -17,10 +17,11 @@ import { port } from './utils/common'
 import { initFolder } from './utils/file'
 import { httpServer } from './utils/socket'
 
-const app = express()
-app.use(cors())
 initFolder()
 
+const app = express()
+
+app.use(cors())
 app.use(express.json())
 app.use(express.urlencoded({ extended: true }))
 
