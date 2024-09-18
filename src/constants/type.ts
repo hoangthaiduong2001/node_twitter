@@ -38,3 +38,10 @@ export interface ISearchQuery {
   search_type?: SearchQueryType
   people_follow?: PeopleFollow
 }
+
+export interface IConversation {
+  receiver_id: string
+  sender_id: string
+  limit: number
+  page: number
+}

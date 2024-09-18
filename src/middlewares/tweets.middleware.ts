@@ -13,11 +13,11 @@ import {
   audienceTweetValidatorSchema,
   contentTweetValidatorSchema,
   hashtagsTweetValidatorSchema,
+  limitValidatorSchema,
   mediasTweetValidatorSchema,
   mentionsTweetValidatorSchema,
+  pageValidatorSchema,
   parentIdTweetValidatorSchema,
-  tweetLimitValidatorSchema,
-  tweetPageValidatorSchema,
   tweetTdValidatorSchema,
   tweetTypeValidatorSchema,
   typeTweetValidatorSchema
@@ -86,8 +86,8 @@ export const getTweetChildrenValidator = validate(
 export const paginationValidator = validate(
   checkSchema(
     {
-      limit: tweetLimitValidatorSchema,
-      page: tweetPageValidatorSchema
+      limit: limitValidatorSchema,
+      page: pageValidatorSchema
     },
     ['query']
   )

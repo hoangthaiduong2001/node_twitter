@@ -11,8 +11,8 @@ searchRouter.get(
   '/',
   accessTokenValidator,
   verifiedUserValidator,
-  searchValidator,
   paginationValidator,
+  searchValidator,
   handleRequestHandler(searchController)
 )
 

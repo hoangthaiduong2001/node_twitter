@@ -36,8 +36,8 @@ tweetsRouter.get(
 
 tweetsRouter.get(
   '/:tweet_id/children',
-  tweetIdValidator,
   paginationValidator,
+  tweetIdValidator,
   getTweetChildrenValidator,
   isUserLoggedInValidator(accessTokenValidator),
   isUserLoggedInValidator(verifiedUserValidator),
@@ -47,9 +47,9 @@ tweetsRouter.get(
 
 tweetsRouter.get(
   '/',
-  paginationValidator,
   accessTokenValidator,
   verifiedUserValidator,
+  paginationValidator,
   handleRequestHandler(getNewFeedsController)
 )
 

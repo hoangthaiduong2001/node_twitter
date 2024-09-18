@@ -122,5 +122,12 @@ export const LIKE_MESSAGE = {
 } as const
 
 export const SEARCH = {
-  SEARCH_SUCCESS: 'Search success'
-}
+  SEARCH_SUCCESS: 'Search success',
+  CONTENT_MUST_BE_STRING: 'Content must be string',
+  SEARCH_TYPE_MUST_BE_SEARCH_QUERY_TYPE: 'Search type must be one of SearchQueryType',
+  PEOPLE_FOLLOW_MUST_BE_0_OR_1: 'People follow must be 0 or 1'
+} as const
+
+export const CONVERSATION = {
+  CONVERSATION_SUCCESS: 'Get conversation success'
+} as const
