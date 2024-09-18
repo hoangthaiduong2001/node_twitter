@@ -3,9 +3,9 @@ import { ParamSchema } from 'express-validator'
 import { JsonWebTokenError } from 'jsonwebtoken'
 import { capitalize, isEmpty } from 'lodash'
 import { ObjectId } from 'mongodb'
-import { MediaType, TweetAudience, TweetType } from '~/constants/enums'
+import { MediaType, PeopleFollow, SearchQueryType, TweetAudience, TweetType } from '~/constants/enums'
 import HTTP_STATUS from '~/constants/httpStatus'
-import { TWEETS_MESSAGE, USERS_MESSAGE } from '~/constants/message'
+import { BOOKMARK_MESSAGE, LIKE_MESSAGE, SEARCH, TWEETS_MESSAGE, USERS_MESSAGE } from '~/constants/message'
 import { Media } from '~/constants/type'
 import { ErrorWithStatus } from '~/models/errors/Errors'
 import { TokenPayload, UpdateMeReqBody } from '~/models/requests/User.requests'
@@ -682,7 +682,7 @@ export const tweetTypeValidatorSchema: ParamSchema = {
   }
 }
 
-export const tweetLimitValidatorSchema: ParamSchema = {
+export const limitValidatorSchema: ParamSchema = {
   isNumeric: true,
   custom: {
     options: async (value, { req }) => {
@@ -695,7 +695,7 @@ export const tweetLimitValidatorSchema: ParamSchema = {
   }
 }
 
-export const tweetPageValidatorSchema: ParamSchema = {
+export const pageValidatorSchema: ParamSchema = {
   isNumeric: true,
   custom: {
     options: async (value, { req }) => {
@@ -704,6 +704,100 @@ export const tweetPageValidatorSchema: ParamSchema = {
         throw new Error('Minimum is 1')
       }
       return true
+    }
+  }
+}
+
+/*-------------Like-------------*/
+export const bookmarkIdValidatorSchema: ParamSchema = {
+  custom: {
+    options: async (value: string, { req }) => {
+      if (!ObjectId.isValid(value)) {
+        throw new ErrorWithStatus({
+          status: HTTP_STATUS.BAD_REQUEST,
+          message: BOOKMARK_MESSAGE.INVALID_BOOKMARK_ID
+        })
+      }
+      const bookmark = await databaseService.bookmarks.findOne({
+        _id: new ObjectId(value)
+      })
+      if (!bookmark) {
+        throw new ErrorWithStatus({
+          status: HTTP_STATUS.NOT_FOUND,
+          message: BOOKMARK_MESSAGE.BOOKMARK_ID_NOT_FOUND
+        })
+      }
+      return true
+    }
+  }
+}
+
+/*-------------Like-------------*/
+export const likeIdValidatorSchema: ParamSchema = {
+  custom: {
+    options: async (value: string, { req }) => {
+      if (!ObjectId.isValid(value)) {
+        throw new ErrorWithStatus({
+          status: HTTP_STATUS.BAD_REQUEST,
+          message: LIKE_MESSAGE.INVALID_LIKE_ID
+        })
+      }
+      const like = await databaseService.likes.findOne({
+        _id: new ObjectId(value)
+      })
+      if (!like) {
+        throw new ErrorWithStatus({
+          status: HTTP_STATUS.NOT_FOUND,
+          message: LIKE_MESSAGE.LIKE_ID_NOT_FOUND
+        })
+      }
+      return true
+    }
+  }
+}
+
+/*-------------Search-------------*/
+export const contentSearchValidatorSchema: ParamSchema = {
+  isString: {
+    errorMessage: SEARCH.CONTENT_MUST_BE_STRING
+  }
+}
+
+export const searchTypeValidatorSchema: ParamSchema = {
+  optional: true,
+  isIn: {
+    options: [Object.values(SearchQueryType)]
+  },
+  errorMessage: SEARCH.SEARCH_TYPE_MUST_BE_SEARCH_QUERY_TYPE
+}
+
+export const peopleFollowValidatorSchema: ParamSchema = {
+  optional: true,
+  isIn: {
+    options: [Object.values(PeopleFollow)],
+    errorMessage: SEARCH.PEOPLE_FOLLOW_MUST_BE_0_OR_1
+  }
+}
+
+/*-------------Conversation-------------*/
+export const userIdValidatorSchema: ParamSchema = {
+  custom: {
+    options: async (value: string, { req }) => {
+      const followed_user = await databaseService.users.findOne({
+        _id: new ObjectId(value)
+      })
+      if (!ObjectId.isValid(value)) {
+        throw new ErrorWithStatus({
+          message: USERS_MESSAGE.INVALID_FOLLOWED_USER_ID,
+          status: HTTP_STATUS.NOT_FOUND
+        })
+      }
+      if (followed_user === null) {
+        throw new ErrorWithStatus({
+          message: USERS_MESSAGE.USER_NOT_FOUND,
+          status: HTTP_STATUS.NOT_FOUND
+        })
+      }
     }
   }
 }

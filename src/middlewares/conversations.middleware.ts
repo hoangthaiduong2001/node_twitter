@@ -1,11 +1,11 @@
 import { checkSchema } from 'express-validator'
 import { validate } from '~/utils/validation'
-import { likeIdValidatorSchema } from './const'
+import { userIdValidatorSchema } from './const'
 
-export const likeIdValidator = validate(
+export const conversationValidator = validate(
   checkSchema(
     {
-      like_id: likeIdValidatorSchema
+      receiver_id: userIdValidatorSchema
     },
     ['params']
   )
